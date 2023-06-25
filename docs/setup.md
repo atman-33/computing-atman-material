@@ -29,9 +29,9 @@ nx generate @nrwl/angular:application --name client \
 npm install @angular/material --dev
 npx nx g @angular/material:ng-add --project=client
 ```
-- custom theme? => pink-bluegrey(no matter what you choose)
+- custom theme? => custom
 - global angular material typography styles? => true
-- include angular animations module? => do not include
+- include angular animations module? => Include and enable animations
 
 > outside of nx, ng add @angular/material
 
@@ -102,7 +102,7 @@ npm install bcrypt
 npm install apollo-angular @apollo/client graphql --force
 ```
 
-### about codegen  
+### about codegen for angular  
 ```
 npm install @graphql-codegen/cli @graphql-codegen/schema-ast @graphql-codegen/typescript-apollo-angular @graphql-codegen/typescript-operations
 ```

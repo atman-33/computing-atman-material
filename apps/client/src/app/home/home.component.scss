@@ -1,0 +1,22 @@
+@use '../styles/neumorphism/neumorphism.scss';
+
+.section{
+    background-color: #e6e7ee;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #44476a;
+}
+
+.lead{
+    font-size: 1.25rem;
+}
+
+.script-font {
+    font-family: "Brush Script MT", cursive;
+    font-size: 200%;
+}
+
+.icon-box .icon {
+    background-color: gray;
+    color: white;
+}
