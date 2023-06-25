@@ -5,6 +5,8 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
+import { FooterModule } from './common/footer/footer.module';
+import { NavbarModule } from './common/navbar/navbar.module';
 import { HomeModule } from './home/home.module';
 
 @NgModule({
@@ -14,7 +16,9 @@ import { HomeModule } from './home/home.module';
     RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     BrowserAnimationsModule,
     AppRoutingModule,
-    HomeModule
+    HomeModule,
+    NavbarModule,
+    FooterModule
   ],
   providers: [],
   bootstrap: [AppComponent],

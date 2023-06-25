@@ -1,0 +1,12 @@
+@use '../../styles/neumorphism/neumorphism.scss';
+
+.footer{
+    background-color: #e6e7ee;
+}
+
+hr {
+    margin-top: 0;
+    border: 0;
+    border-top: 0.0625rem solid rgba(38,40,51,.05);
+    background-color: #e6e7ee;
+}
