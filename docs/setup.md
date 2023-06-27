@@ -62,6 +62,11 @@ npx nx generate @nx/js:library config --directory=shared --importPath=@libs/shar
 
 > if you don't need shared-config.ts, remove it.
 
+install @nestjs/config  
+```
+npm install @nestjs/config
+```
+
 ## install oracledb
 ```
 npm install oracledb @types/oracledb
