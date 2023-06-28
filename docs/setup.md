@@ -185,7 +185,7 @@ generates:
 nx codegen client
 ```
 
-*8. change noImplicitOverride int tsconfig.json
+*8. change noImplicitOverride int tsconfig.json*
 noImplicitOverride => false  
 ```
   "compilerOptions": {

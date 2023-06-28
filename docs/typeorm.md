@@ -64,7 +64,12 @@ npm install --save-dev tsconfig-paths
 
 *11. generate migration file*  
 ```
-npx ts-node -r tsconfig-paths/register -P tsconfig.typeorm.json ./node_modules/typeorm/cli.js migration:generate -d apps/server/src/data-source.ts apps/server/src/app/migrations/<migration-name>
+npx ts-node -r tsconfig-paths/register -P tsconfig.typeorm.json ./node_modules/typeorm/cli.js migration:generate -d apps/server/src/data-source.ts apps/server/src/app/migrations/<migration-name> --outputJs
+```
+
+add migrations path in .eslintignore  
+```
+apps/server/src/app/migrations
 ```
 
 *12. run migration*  
