@@ -221,6 +221,13 @@ npm install --save-dev @types/passport-jwt
 npm install cookie-parser
 npm install --save-dev @types/cookie-parser
 ```
+- add cookieParser() to main.ts in nestjs  
+```ts
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+
+  app.use(cookieParser());
+```
 
 ## install link-preview
 ```

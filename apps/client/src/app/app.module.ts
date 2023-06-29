@@ -1,13 +1,14 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
 import { InMemoryCache } from '@apollo/client/core';
 import { APOLLO_OPTIONS, ApolloModule } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { appRoutes } from './app.routes';
+import { LoginModule } from './auth/login/login.module';
+import { SignUpModule } from './auth/sign-up/sign-up.module';
 import { FooterModule } from './common/footer/footer.module';
 import { NavbarModule } from './common/navbar/navbar.module';
 import { HomeModule } from './home/home.module';
@@ -16,13 +17,15 @@ import { HomeModule } from './home/home.module';
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes, { initialNavigation: 'enabledBlocking' }),
     BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
     ApolloModule,
     HomeModule,
     NavbarModule,
-    FooterModule
+    FooterModule,
+    LoginModule,
+    SignUpModule,
   ],
   providers: [
     {

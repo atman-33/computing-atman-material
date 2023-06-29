@@ -24,6 +24,7 @@ export class AuthController {
     @UseGuards(JwtAuthGuard)
     @Get()
     isAuthenticated() {
+        // console.log('auth.controller isAuthenticated => true');
         return true;
     }
 

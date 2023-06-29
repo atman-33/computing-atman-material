@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from '../../auth/auth.service';
+import { sites } from '../../sites/sites';
+
 
 @Component({
   selector: 'app-navbar',
@@ -6,11 +11,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  public isNavbarDialogOpen = false;
+  isLoggedIn$!: Observable<boolean>;
+  isNavbarDialogOpen = false;
 
-  // constructor(
-  //   public auth: AuthService) {
-  // }
+  sites = sites;
+
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router) {
+    this.isLoggedIn$ = authService.authenticated$;
+  }
 
   toggleNavbarDialog() {
     console.log('Toggle clicked!');
@@ -22,8 +32,8 @@ export class NavbarComponent {
     this.isNavbarDialogOpen = false;
   }
 
-  // signout() {
-  //   this.auth.signout();
+  // onLogout() {
+  //   this.authService.logout();
   //   this.isNavbarDialogOpen = false;
   // }
 }

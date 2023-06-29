@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subject, catchError, of, tap } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root'  // can inject anywahere
 })
 export class AuthService {
     private readonly authenticated = new Subject<boolean>();

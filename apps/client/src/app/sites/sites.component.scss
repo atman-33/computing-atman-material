@@ -1,0 +1,28 @@
+@use '../styles/neumorphism/neumorphism.scss';
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+.links {
+    padding-left: 0;
+}
+
+.link {
+    margin-bottom: 0.25rem;
+}
+
+li {
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.black-card {
+    border-radius: 10px;
+    background-color: dimgray;
+    color: white;
+}
+
+.rounded-image {
+    border-radius: 0 10px 10px 0 !important;
+}

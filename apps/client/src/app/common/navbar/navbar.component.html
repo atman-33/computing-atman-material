@@ -4,8 +4,7 @@
         <div class="container position-relative">
 
             <div>
-                <a class="navbar-brand py-2 px-1 rounded font-weight-bold" [routerLink]="['/']"
-                    (click)="closeNavbarDialog()">
+                <a class="navbar-brand py-2 px-1 rounded font-weight-bold" routerLink="/" (click)="closeNavbarDialog()">
                     Computing Atman
                 </a>
                 <!-- <ng-container *ngIf="auth.isAuthenticated()">
@@ -33,12 +32,12 @@
                 <ul class="navbar-nav navbar-nav-hover align-items-lg-center ml-auto">
 
                     <li class="nav-item mt-2 mb-2">
-                        <!-- <a class="text-secondary ml-1 mr-3" [routerLink]="['/blog']" (click)="closeNavbarDialog()">
+                        <a class="text-secondary ml-1 mr-3" [routerLink]="['/blog']" (click)="closeNavbarDialog()">
                             <span>My Blog
                                 <span class="fas fa-blog ml-2">
                                 </span>
                             </span>
-                        </a> -->
+                        </a>
                     </li>
 
                     <li class="nav-item dropdown" ngbDropdown>
@@ -46,12 +45,12 @@
                             <span class="nav-link-inner-text text-secondary">Sites</span>
                             <span class="fas fa-angle-down nav-link-arrow ml-2 text-secondary"></span>
                         </div>
-                        <!-- <ul class="dropdown-menu" ngbDropdownMenu>
-                            <li><a class="dropdown-item my-1" href="https://atman-33.github.io/template-blog-hexo/"
-                                    target="_blank" (click)="closeNavbarDialog()">Hexo Material</a></li>
-                            <li><a class="dropdown-item my-1" [routerLink]="['/user-management']"
-                                    (click)="closeNavbarDialog()">User table management</a></li>
-                        </ul> -->
+                        <ul class="dropdown-menu" ngbDropdownMenu>
+                            <li *ngFor="let site of sites">
+                                <a class="dropdown-item my-1" href="{{ site.url }}" target="_blank"
+                                    (click)="closeNavbarDialog()">{{ site.name }}</a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="nav-item dropdown" ngbDropdown>
@@ -60,8 +59,8 @@
                             <span class="fas fa-angle-down nav-link-arrow ml-2 text-secondary"></span>
                         </div>
                         <ul class="dropdown-menu" ngbDropdownMenu>
-                            <li><a class="dropdown-item my-1" href="https://atman-33.github.io/phaser3-webpack-starter-ts/"
-                                    target="_blank">
+                            <li><a class="dropdown-item my-1"
+                                    href="https://atman-33.github.io/phaser3-webpack-starter-ts/" target="_blank">
                                     Infinite Runner</a></li>
                         </ul>
                     </li>
@@ -83,12 +82,36 @@
                         </a>
                     </li>
 
+                    <!-- <li class="nav-item d-flex justify-content-center">
+                        <div *ngIf="(isLoggedIn$ | async) === true; else login">
+                            <a (click)="onLogout()">
+                                <div class="navbar-btn btn btn-pill py-2">
+                                    <span class="fa-solid fa-user mr-1"></span>Logout
+                                </div>
+                            </a>
+                        </div>
+                        <ng-template #login>
+                            <a routerLink="/login">
+                                <div class="navbar-btn btn btn-pill py-2">
+                                    <span class="fa-solid fa-user mr-1"></span>Login
+                                </div>
+                            </a>
+                        </ng-template>
+                    </li>
+                    <li *ngIf="(isLoggedIn$ | async) !== true" class="nav-item d-flex justify-content-center">
+                        <a routerLink="/signup">
+                            <div class="sign-up-btn navbar-btn btn btn-pill py-2">
+                                <span class="fa fa-sign-in mr-1"></span>Sign Up
+                            </div>
+                        </a>
+                    </li> -->
+
                     <!-- サインイン前 -->
-                    <!-- <ng-container *ngIf="!auth.isAuthenticated()">
+                    <!-- <ng-container *ngIf="!autht.isAuthenticated()">
                         <li class="nav-item d-flex justify-content-center">
                             <a routerLink="/signin" (click)="closeNavbarDialog()">
                                 <div class="navbar-btn btn btn-pill">
-                                    <span class="fa-solid fa-user mr-1"></span>Sign in
+                                    <span class="fa-solid fa-user mr-1"></span>Login
                                 </div>
                             </a>
                         </li>
@@ -96,7 +119,7 @@
                         <li class="nav-item d-flex justify-content-center">
                             <a routerLink="/signup" (click)="closeNavbarDialog()">
                                 <div class="sign-up-btn navbar-btn btn btn-pill">
-                                    <span class="fa fa-sign-in mr-1"></span>Sign up
+                                    <span class="fa fa-sign-in mr-1"></span>Sign Up
                                 </div>
                             </a>
                         </li>
@@ -105,9 +128,9 @@
                     <!-- サインイン後 -->
                     <!-- <ng-container *ngIf="auth.isAuthenticated()">
                         <li class="nav-item d-flex justify-content-center">
-                            <a (click)="signout()">
+                            <a (click)="onLogout()">
                                 <div class="navbar-btn btn btn-pill">
-                                    <span class="fa-solid fa-user mr-1"></span>Sign out
+                                    <span class="fa-solid fa-user mr-1"></span>Logout
                                 </div>
                             </a>
                         </li>
