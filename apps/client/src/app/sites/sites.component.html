@@ -2,13 +2,24 @@
     <h3>Sites</h3>
     <ul class="links">
         <li class="link my-4" *ngFor="let site of sites">
-            <mat-card class="card" (click)="onLinkClick(site.url, site.isBlank)">
+            <mat-card class="card my-2" (click)="onLinkClick(site.url, site.isBlank)">
                 <mat-card-title-group>
-                    <mat-card-title class="p-2"><h5>{{ site.name }}</h5></mat-card-title>
-                    <mat-card-subtitle class="p-2"><p>{{ site.description }}</p></mat-card-subtitle>
-                    <img class="rounded-image" src="{{ site.img }}" alt="" mat-card-md-image/>
+                    <mat-card-title class="p-2">
+                        <h5>{{ site.name }}</h5>
+                    </mat-card-title>
+                    <mat-card-subtitle class="p-2">
+                        <p>{{ site.description }}</p>
+                    </mat-card-subtitle>
+                    <img class="rounded-image" src="{{ site.img }}" alt="" mat-card-md-image />
                 </mat-card-title-group>
             </mat-card>
+
+            <div *ngIf="site.source">
+                <a class="m-2" href="{{ site.source }}" target="_blank">
+                    <button mat-stroked-button color="accent">Source</button>
+                </a>
+            </div>
+
         </li>
     </ul>
 </div>
