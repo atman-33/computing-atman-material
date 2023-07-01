@@ -1,0 +1,14 @@
+<div class="container">
+    <h3>Games</h3>
+    <ul class="links">
+        <li class="link my-4" *ngFor="let game of games">
+            <mat-card class="card" (click)="onLinkClick(game.url)">
+                <mat-card-title-group>
+                    <mat-card-title class="p-2"><h5>{{ game.name }}</h5></mat-card-title>
+                    <mat-card-subtitle class="p-2"><p>{{ game.description }}</p></mat-card-subtitle>
+                    <img class="rounded-image" src="{{ game.img }}" alt="" mat-card-md-image/>
+                </mat-card-title-group>
+            </mat-card>
+        </li>
+    </ul>
+</div>

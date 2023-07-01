@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
+import { games } from '../../games/games';
 import { sites } from '../../sites/sites';
 
 
@@ -15,6 +16,7 @@ export class NavbarComponent {
   isNavbarDialogOpen = false;
 
   sites = sites;
+  games = games;
 
   constructor(
     private readonly authService: AuthService,

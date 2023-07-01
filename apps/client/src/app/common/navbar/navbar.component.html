@@ -59,9 +59,10 @@
                             <span class="fas fa-angle-down nav-link-arrow ml-2 text-secondary"></span>
                         </div>
                         <ul class="dropdown-menu" ngbDropdownMenu>
-                            <li><a class="dropdown-item my-1"
-                                    href="https://atman-33.github.io/phaser3-webpack-starter-ts/" target="_blank">
-                                    Infinite Runner</a></li>
+                            <li *ngFor="let game of games">
+                                <a class="dropdown-item my-1" href="{{ game.url }}" target="_blank"
+                                    (click)="closeNavbarDialog()">{{ game.name }}</a>
+                            </li>
                         </ul>
                     </li>
 

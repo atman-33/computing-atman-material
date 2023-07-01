@@ -8,11 +8,10 @@
             </div>
             <div class="col-md-6 col-xl-5 text-center text-md-left">
                 <h2 class="h1 mb-4">Welcome to Computing Atman Site</h2>
-                <p class="lead">
-                    本サイトはIT関連のシステム開発やプログラミングに関する情報サイトです。
-                    DBやBIツールなどのデータを扱うソフトウェアや、C#、VBA、Python、JavaScript、Typescriptなどのコーディング関連の情報を提供します。
-                </p>
-                <p class="lead">ご質問やご要望がありましたら、Twitterまでご連絡ください。</p>
+                <p class="lead">This website is an information site on system development and programming related to
+                    IT. We provide information on software that handles data, such as DB and BI tools, as well as
+                    coding-related topics such as C#, VBA, Python, Javascript, and Typescript.</p>
+                <p class="lead">If you have any questions or requests, please contact us via Twitter.</p>
 
                 <a class="nav-link d-flex align-items-center justify-content-center" rel="tooltip"
                     title="Follow us on Twitter" data-placement="bottom" href="https://twitter.com/atman_33"
@@ -27,72 +26,54 @@
         <div class="row mt-5 mb-5">
 
             <div class="col-md-4 col-lg-4 text-center">
-                <div class="icon-box mb-4">
-                    <!-- <a [routerLink]="['/blog']"> -->
-                    <a>
-                        <div class="icon icon-shape shadow-soft border-light rounded-circle mb-4"><span
-                                class="fas fa-blog">
-                            </span>
-                        </div>
-                    </a>
-                    <h2 class="h5 icon-box-title">My Blog</h2>
+                <div class="button-container">
+                    <button mat-fab color="primary" class="button-large m-2" aria-label="blog button"
+                        (click)="onBlogButtonClicked()">
+                        <span class="icon-large fas fa-blog"></span>
+                        <!-- <mat-icon>bookmark</mat-icon> -->
+                    </button>
+                    <h5>My Blog</h5>
                     <span>
-                        IT関連情報ブログです。<br>
-                        興味があればぜひご覧ください。
+                        IT-related information blog.<br>
+                        Please take a look if you're interested.
                     </span>
                 </div>
             </div>
 
             <div class="col-md-4 col-lg-4 text-center">
-                <div class="icon-box">
-                    <a class="icon icon-shape shadow-soft border-light rounded-circle mb-4" data-bs-toggle="collapse"
-                        data-bs-target="#collapseSites" aria-expanded="true">
-                        <span class="fas fa-pager"></span>
-                    </a>
-                    <h2 class="h5 icon-box-title">Sites</h2>
+                <div class="button-container">
+                    <button mat-fab color="primary" class="button-large m-2" aria-label="sites button"
+                        (click)="onSitesButtonClicked()">
+                        <span class="icon-large fas fa-pager"></span>
+                        <!-- <mat-icon>bookmark</mat-icon> -->
+                    </button>
+                    <h5>Sites</h5>
                     <span>
-                        様々なサイトです。<br>
-                        よければ参考にして下さい。
+                        Various sites.<br>
+                        Please feel free to use it as a reference if you like.
                     </span>
-                    <div id="collapseSites" class="accordion-collapse collapse">
-                        <ul class="footer-links list-unstyled mt-4">
-                            <li class="text-secondary font-weight-bold">
-                                <a href="https://atman-33.github.io/hexo-material-blog-template/" target="_blank">Hexo
-                                    Material</a>
-                            </li>
-                            <!-- <li class="text-secondary font-weight-bold">
-                                    <a [routerLink]="['/user-management']">User table management</a>
-                                </li> -->
-                        </ul>
-                    </div>
                 </div>
             </div>
 
             <div class="col-md-4 col-lg-4 text-center">
-                <div class="icon-box">
-                    <a class="icon icon-shape shadow-soft border-light rounded-circle mb-4" data-bs-toggle="collapse"
-                        data-bs-target="#collapseGames" aria-expanded="true">
-                        <span class="fas fa-gamepad"></span>
-                    </a>
-                    <h2 class="h5 icon-box-title">Games</h2>
+                <div class="button-container">
+                    <button mat-fab color="primary" class="button-large m-2" aria-label="games button"
+                        (click)="onGamesButtonClicked()">
+                        <span class="icon-large fas fa-pager"></span>
+                        <!-- <mat-icon>bookmark</mat-icon> -->
+                    </button>
+                    <h5>Games</h5>
                     <span>
-                        Javascript等で作られたゲームです。<br>
-                        よろしければお楽しみください。
+                        Game made with Javascript etc.<br>
+                        Please enjoy it if you like.
                     </span>
-                    <div id="collapseGames" class="accordion-collapse collapse">
-                        <ul class="footer-links list-unstyled mt-4">
-                            <li class="text-secondary font-weight-bold">
-                                <a href="https://atman-33.github.io/phaser3-webpack-typescript-template/"
-                                    target="_blank">
-                                    Infinite Runner</a>
-                            </li>
-                        </ul>
-                    </div>
                 </div>
             </div>
+
         </div>
 
-        <app-sites></app-sites>
+        <app-sites [@fadeInOut] *ngIf="showSitesList"></app-sites>
+        <app-games [@fadeInOut] *ngIf="showGamesList"></app-games>
 
     </div>
 
