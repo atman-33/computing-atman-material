@@ -29,6 +29,6 @@ export class BookmarksComponent implements OnInit {
   }
 
   onBookmarkClick(bookmarkId: string) {
-    this.router.navigate(['/bookmarks', bookmarkId]);
+    this.router.navigate(['sites/booker/bookmarks', bookmarkId]);
   }
 }

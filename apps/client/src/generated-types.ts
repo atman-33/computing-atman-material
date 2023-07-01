@@ -1,6 +1,6 @@
+import { gql } from 'apollo-angular';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
-import { gql } from 'apollo-angular';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -68,6 +68,7 @@ export type Query = {
   __typename?: 'Query';
   bookmark: Bookmark;
   bookmarks: Array<Bookmark>;
+  currentUser: User;
   links: Array<Link>;
   user: User;
 };
@@ -104,6 +105,11 @@ export type CreateUserMutationVariables = Exact<{
 
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string, email: string } };
+
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', email: string } };
 
 export type LinksQueryVariables = Exact<{
   urls: Array<Scalars['String']['input']> | Scalars['String']['input'];
@@ -152,6 +158,24 @@ export const CreateUserDocument = gql`
   })
   export class CreateUserGQL extends Apollo.Mutation<CreateUserMutation, CreateUserMutationVariables> {
     document = CreateUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CurrentUserDocument = gql`
+    query currentUser {
+  currentUser {
+    email
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CurrentUserGQL extends Apollo.Query<CurrentUserQuery, CurrentUserQueryVariables> {
+    document = CurrentUserDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

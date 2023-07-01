@@ -5,12 +5,12 @@ export class Link {
     @Field()
     readonly title: string;
 
-    @Field()
-    readonly siteName: string;
+    @Field({ nullable: true })
+    readonly siteName?: string;
 
     @Field()
     readonly url: string;
 
-    @Field(() => [String])
-    readonly images: string[];
+    @Field(() => [String],{ nullable: true })
+    readonly images?: string[];
 }

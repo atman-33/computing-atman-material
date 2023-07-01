@@ -10,9 +10,9 @@ export const sites = [
     {
         name: 'Booker',
         url: '/sites/booker',
-        description: 'xxx',
-        source: 'xxx',
-        img: 'xxx',
+        description: 'This is a web application for bookmarking URL links.',
+        source: '',
+        img: '../../assets/img/booker.png',
         isBlank: 'false'
     },
 ];

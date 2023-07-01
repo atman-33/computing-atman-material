@@ -12,7 +12,7 @@
     <ng-template #showLinks>
         <ul class="links">
             <li class="link" *ngFor="let link of links">
-                <mat-card (click)="onLinkClick(link.url)">
+                <mat-card class="p-2" (click)="onLinkClick(link.url)">
                     <mat-card-title-group>
                         <mat-card-title>{{ link.title }}</mat-card-title>
                         <mat-card-subtitle>{{ link.siteName }}</mat-card-subtitle>

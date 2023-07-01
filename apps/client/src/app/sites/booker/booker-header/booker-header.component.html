@@ -2,6 +2,9 @@
     <a routerLink="/sites/booker">
         <h1>Booker</h1>
     </a>
+    <ul class="nav">
+        <li>{{(currentUserEmail$ | async) }}</li>
+    </ul>
     <!-- <ul class="nav">
         <li>
             <div *ngIf="(isLoggedIn$ | async) === true; else login">

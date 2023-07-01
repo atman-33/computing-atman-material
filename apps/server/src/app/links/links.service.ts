@@ -5,7 +5,7 @@ import { GetLinksArgs } from './dto/args/get-links-args.dto';
 @Injectable()
 export class LinksService {
     async getLinks(getLinksArgs: GetLinksArgs) {
-        const retryCount = 3;
+        const retryCount = 5;
         const retryDelay = 1000;
 
         return Promise.all(
