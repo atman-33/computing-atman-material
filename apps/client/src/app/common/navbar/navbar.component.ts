@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthService } from '../../auth/auth.service';
 import { games } from '../../games/games';
 import { sites } from '../../sites/sites';
@@ -10,7 +11,7 @@ import { sites } from '../../sites/sites';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent {
-  // isLoggedIn$!: Observable<boolean>;
+  isLoggedIn$!: Observable<boolean>;
   isNavbarDialogOpen = false;
 
   sites = sites;
@@ -18,7 +19,11 @@ export class NavbarComponent {
 
   constructor(
     private readonly authService: AuthService) {
-    // this.isLoggedIn$ = authService.authenticated$;
+    this.isLoggedIn$ = authService.authenticated$;
+    this.isLoggedIn$.subscribe(
+      (data) => {
+        console.log(`navbar login: ${data}`);
+    });
   }
 
   toggleNavbarDialog() {
@@ -31,8 +36,8 @@ export class NavbarComponent {
     this.isNavbarDialogOpen = false;
   }
 
-  // onLogout() {
-  //   this.authService.logout();
-  //   this.isNavbarDialogOpen = false;
-  // }
+  onLogout() {
+    this.authService.logout();
+    this.isNavbarDialogOpen = false;
+  }
 }

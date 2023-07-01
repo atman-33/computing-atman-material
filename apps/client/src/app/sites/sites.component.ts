@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { sites } from './sites';
 
 @Component({
@@ -9,7 +10,14 @@ import { sites } from './sites';
 export class SitesComponent {
   sites = sites;
 
-  onLinkClick(url: string) {
-    window.open(url, '_blank');
+  constructor(private readonly router: Router){}
+
+  onLinkClick(url: string, isBlank: string) {
+
+    if(isBlank === 'true'){
+      window.open(url, '_blank');
+    }else{
+      this.router.navigate([url]);
+    }
   }
 }

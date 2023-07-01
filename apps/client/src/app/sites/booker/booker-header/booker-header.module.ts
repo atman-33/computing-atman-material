@@ -9,7 +9,8 @@ import { BookerHeaderComponent } from './booker-header.component';
   imports: [
     CommonModule,
     MatToolbarModule,
-    RouterModule],
+    RouterModule
+  ],
   exports: [
     BookerHeaderComponent
   ]

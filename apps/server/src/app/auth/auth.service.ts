@@ -1,5 +1,5 @@
+import { env } from '@libs/shared/config';
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
 import { User } from '../users/models/user.model';
@@ -11,7 +11,6 @@ export interface TokenPayload {
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly configService: ConfigService,
         private readonly jwtService: JwtService) { }
 
     async login(user: User, response: Response) {
@@ -21,8 +20,9 @@ export class AuthService {
 
         const expires = new Date();
         // console.log(expires);
+        // console.log(env.JWT_EXPIRATION);
         expires.setSeconds(
-            expires.getSeconds() + this.configService.get('JWT_EXPIRATION')
+            expires.getSeconds() + parseInt(env.JWT_EXPIRATION, 10)
         );
         // console.log(expires);
 
@@ -36,9 +36,11 @@ export class AuthService {
     }
 
     logout(response: Response) {
-        response.cookie('Autentication', '', {
+        const expires = new Date();
+        // console.log(expires);
+        response.cookie('Authentication', '', {
             httpOnly: true,
-            expires: new Date()
+            expires: expires
         });
     }
 }

@@ -19,8 +19,8 @@ import { Router } from '@angular/router';
   ]
 })
 export class HomeComponent {
-  showSitesList = true;
-  showGamesList = true;
+  showSitesList = false;
+  showGamesList = false;
 
   constructor(
     private readonly router: Router) {

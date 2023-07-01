@@ -54,6 +54,8 @@
                     </span>
                 </div>
             </div>
+            <app-sites [@fadeInOut] *ngIf="showSitesList"></app-sites>
+
 
             <div class="col-md-4 col-lg-4 text-center">
                 <div class="button-container">
@@ -69,11 +71,9 @@
                     </span>
                 </div>
             </div>
+            <app-games [@fadeInOut] *ngIf="showGamesList"></app-games>
 
         </div>
-
-        <app-sites [@fadeInOut] *ngIf="showSitesList"></app-sites>
-        <app-games [@fadeInOut] *ngIf="showGamesList"></app-games>
 
     </div>
 

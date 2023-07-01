@@ -17,11 +17,12 @@ const routes: Routes = [
     {
         path: '',
         component: HomeComponent,
+        // canActivate: [AuthGuard]
     },
     // {
     //     path: 'sites/booker',
     //     component: BookerComponent,
-    //     //canActivate: [AuthGuard]    // check login or logout(auth.guard > canActivate => auth.service > isAuthenticated)
+    //     canActivate: [AuthGuard]    // check login or logout(auth.guard > canActivate => auth.service > isAuthenticated)
     // },
     {
         path: '**',
