@@ -7,7 +7,9 @@ import * as Joi from 'joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { BookmarksModule } from './bookmarks/bookmarks.module';
 import { DatabaseModule } from './database/database.module';
+import { LinksModule } from './links/links.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -29,6 +31,8 @@ import { UsersModule } from './users/users.module';
     UsersModule,
     DatabaseModule,
     AuthModule,
+    BookmarksModule,
+    LinksModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -12,6 +12,7 @@ export class AuthGuard {
         private readonly router: Router) { }
 
     canActivate() {
+        console.log('auth.guard.ts => canActivate()');
         return this.authService.isAuthenticated().pipe(
             tap((authenticated) => {
                 if (!authenticated) {
