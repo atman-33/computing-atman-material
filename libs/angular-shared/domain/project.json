@@ -1,0 +1,16 @@
+{
+  "name": "angular-shared-domain",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/angular-shared/domain/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/angular-shared/domain/**/*.ts"]
+      }
+    }
+  },
+  "tags": ["scope:angular-shared", "type:domain"]
+}

@@ -67,6 +67,14 @@ install @nestjs/config
 npm install @nestjs/config
 ```
 
+## add angular domain in the library
+```
+npx nx generate @nx/js:library domain --directory=angular-shared --importPath=@libs/angular-shared/domain --tags=scope:angular-shared,type:domain
+```
+- unit test runner => none
+- bundler => none
+
+
 ## add nestjs domain in the library
 ```
 npx nx generate @nx/js:library domain --directory=nest-shared --importPath=@libs/nest-shared/domain --tags=scope:nest-shared,type:domain

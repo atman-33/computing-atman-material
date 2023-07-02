@@ -15,6 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@libs/angular-shared/domain": [
+        "libs/angular-shared/domain/src/index.ts"
+      ],
+      "@libs/nest-shared/domain": ["libs/nest-shared/domain/src/index.ts"],
       "@libs/shared/config": ["libs/shared/config/src/index.ts"],
       "@libs/shared/domain": ["libs/shared/domain/src/index.ts"]
     }
