@@ -31,7 +31,8 @@ export class PostsService {
             // console.log(`post created: ${postInput.name}`);
             posts.push(this.toModel(postDocument));
         }
-
+        
+        console.log('initialized post data.');
         return posts;
     }
 
