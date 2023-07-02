@@ -16,7 +16,7 @@
                     <mat-card-title-group>
                         <mat-card-title>{{ link.title }}</mat-card-title>
                         <mat-card-subtitle>{{ link.siteName }}</mat-card-subtitle>
-                        <img src="{{ link.images[0] }}" alt="" mat-card-md-image/>
+                        <img *ngIf="link.images" src="{{ link.images[0] }}" alt="" mat-card-md-image/>
                     </mat-card-title-group>
                 </mat-card>
             </li>

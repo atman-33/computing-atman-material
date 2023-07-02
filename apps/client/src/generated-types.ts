@@ -15,6 +15,8 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
+  DateTime: { input: any; output: any; }
 };
 
 export type Bookmark = {
@@ -36,8 +38,8 @@ export type CreateUserInput = {
 
 export type Link = {
   __typename?: 'Link';
-  images: Array<Scalars['String']['output']>;
-  siteName: Scalars['String']['output'];
+  images?: Maybe<Array<Scalars['String']['output']>>;
+  siteName?: Maybe<Scalars['String']['output']>;
   title: Scalars['String']['output'];
   url: Scalars['String']['output'];
 };
@@ -46,6 +48,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   createBookmark: Bookmark;
   createUser: User;
+  initializePostData: Array<Post>;
   updateBookmark: Bookmark;
 };
 
@@ -62,6 +65,18 @@ export type MutationCreateUserArgs = {
 
 export type MutationUpdateBookmarkArgs = {
   updateBookmarkData: UpdateBookmarkInput;
+};
+
+export type Post = {
+  __typename?: 'Post';
+  _id: Scalars['String']['output'];
+  article: Scalars['String']['output'];
+  categories?: Maybe<Array<Scalars['String']['output']>>;
+  date: Scalars['DateTime']['output'];
+  name: Scalars['String']['output'];
+  tags?: Maybe<Array<Scalars['String']['output']>>;
+  thumbnail?: Maybe<Scalars['String']['output']>;
+  title: Scalars['String']['output'];
 };
 
 export type Query = {
@@ -99,6 +114,11 @@ export type User = {
   email: Scalars['String']['output'];
 };
 
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', email: string } };
+
 export type CreateUserMutationVariables = Exact<{
   createUserData: CreateUserInput;
 }>;
@@ -106,17 +126,12 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string, email: string } };
 
-export type CurrentUserQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type CurrentUserQuery = { __typename?: 'Query', currentUser: { __typename?: 'User', email: string } };
-
 export type LinksQueryVariables = Exact<{
   urls: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
 
 
-export type LinksQuery = { __typename?: 'Query', links: Array<{ __typename?: 'Link', siteName: string, title: string, images: Array<string>, url: string }> };
+export type LinksQuery = { __typename?: 'Query', links: Array<{ __typename?: 'Link', siteName?: string | null, title: string, images?: Array<string> | null, url: string }> };
 
 export type UpdateBookmarkMutationVariables = Exact<{
   updateBookmarkData: UpdateBookmarkInput;
@@ -144,6 +159,24 @@ export type CreateBookmarkMutationVariables = Exact<{
 
 export type CreateBookmarkMutation = { __typename?: 'Mutation', createBookmark: { __typename?: 'Bookmark', _id: string, name: string, userId: string } };
 
+export const CurrentUserDocument = gql`
+    query currentUser {
+  currentUser {
+    email
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CurrentUserGQL extends Apollo.Query<CurrentUserQuery, CurrentUserQueryVariables> {
+    document = CurrentUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
 export const CreateUserDocument = gql`
     mutation createUser($createUserData: CreateUserInput!) {
   createUser(createUserData: $createUserData) {
@@ -158,24 +191,6 @@ export const CreateUserDocument = gql`
   })
   export class CreateUserGQL extends Apollo.Mutation<CreateUserMutation, CreateUserMutationVariables> {
     document = CreateUserDocument;
-    
-    constructor(apollo: Apollo.Apollo) {
-      super(apollo);
-    }
-  }
-export const CurrentUserDocument = gql`
-    query currentUser {
-  currentUser {
-    email
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class CurrentUserGQL extends Apollo.Query<CurrentUserQuery, CurrentUserQueryVariables> {
-    document = CurrentUserDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
