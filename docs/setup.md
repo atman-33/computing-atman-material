@@ -67,6 +67,13 @@ install @nestjs/config
 npm install @nestjs/config
 ```
 
+## add nestjs domain in the library
+```
+npx nx generate @nx/js:library domain --directory=nest-shared --importPath=@libs/nest-shared/domain --tags=scope:nest-shared,type:domain
+```
+- unit test runner => none
+- bundler => none
+
 ## install oracledb
 ```
 npm install oracledb @types/oracledb

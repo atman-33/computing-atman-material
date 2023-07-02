@@ -19,8 +19,8 @@ export class Post extends AbstractModel {
     @Field({ nullable: true })
     readonly thumbnail?: string
 
-    @Field()
-    readonly category: string
+    @Field(() => [String], { nullable: true })
+    readonly categories?: string[]
 
     @Field(() => [String], { nullable: true })
     readonly tags?: string[]

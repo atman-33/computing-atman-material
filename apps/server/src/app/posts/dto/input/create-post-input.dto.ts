@@ -21,10 +21,9 @@ export class CreatePostInput {
     @IsString()
     thumbnail?: string;
 
-    @Field()
-    @IsNotEmpty()
-    @IsString()
-    category: string;
+    @Field(() => [String], { nullable: true })
+    @IsString({ each: true })
+    categories: string[];
 
     @Field(() => [String], { nullable: true })
     @IsString({ each: true })

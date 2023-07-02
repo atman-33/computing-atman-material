@@ -1,5 +1,6 @@
+import { SortUtils } from '@libs/shared/domain';
 import { Injectable } from '@nestjs/common';
-import { readdir } from 'fs';
+import { readFile, readdir } from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
 import { Post } from './models/post.model';
@@ -52,17 +53,43 @@ export class PostsService {
 
     private async findAllPosts(): Promise<Post[]> {
         const names = await this.findPostNames();
-    
+
         let allPosts: Post[] = [];
         for (const name of names) {
-          allPosts.push(await this.findPostByName(name));
+            allPosts.push(await this.findPostByName(name));
         }
-    
-        allPosts = Utils.sortByDate(allPosts, 'date', 'desc');  // order by new post
-    
+
+        allPosts = SortUtils.sortByDate(allPosts, 'date', 'desc');  // order by new post
+
         return allPosts;
-      }
-    findPostByName(name: string): Post | PromiseLike<Post> {
-        throw new Error('Method not implemented.');
     }
+    async findPostByName(name: string): Promise<Post> {
+        const filePath = join(process.cwd(), this.distPostsPath, name, 'index.md');
+        try {
+            const content = promisify(readFile)(filePath, { encoding: 'utf-8' });
+            return this.parsePostContent(name, await content);
+        } catch (error) {
+            console.error(`Failed to read file: ${filePath}`);
+            console.error(error);
+        }
+    }
+
+  private parsePostContent(name: string, content: string): Post {
+    // console.log(`id: ${id}`);
+
+    let post: Post = {
+      name: name,
+      title: markdownHelper.getMetadataValue(content, 'title:'),
+      date: markdownHelper.getMetadataValue(content, 'date:'),
+      thumbnail: markdownHelper.getMetadataValue(content, 'thumbnail:'),
+      tags: markdownHelper.getMetadataArray(content, 'tags:'),
+      categories: markdownHelper.getMetadataArray(content, 'categories:'),
+      article: markdownHelper.getMdContent(content),
+    };
+
+    post = this.addPrefixTothumbnail(post);
+    post = this.addPrefixToImageSource(post);
+
+    return post;
+  }
 }

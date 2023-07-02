@@ -15,8 +15,8 @@ export class PostDocument extends AbstractDocument{
     @Prop()
     thumbnail?: string
 
-    @Prop()
-    category: string
+    @Prop([String])
+    categories: string[]
 
     @Prop([String])
     tags?: string[]
