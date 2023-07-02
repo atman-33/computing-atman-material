@@ -85,6 +85,8 @@ export type Query = {
   bookmarks: Array<Bookmark>;
   currentUser: User;
   links: Array<Link>;
+  post: Post;
+  posts: Array<Post>;
   user: User;
 };
 
@@ -96,6 +98,11 @@ export type QueryBookmarkArgs = {
 
 export type QueryLinksArgs = {
   urls: Array<Scalars['String']['input']>;
+};
+
+
+export type QueryPostArgs = {
+  _id: Scalars['String']['input'];
 };
 
 
@@ -125,6 +132,11 @@ export type CreateUserMutationVariables = Exact<{
 
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string, email: string } };
+
+export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, article: string }> };
 
 export type LinksQueryVariables = Exact<{
   urls: Array<Scalars['String']['input']> | Scalars['String']['input'];
@@ -191,6 +203,31 @@ export const CreateUserDocument = gql`
   })
   export class CreateUserGQL extends Apollo.Mutation<CreateUserMutation, CreateUserMutationVariables> {
     document = CreateUserDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const PostsDocument = gql`
+    query posts {
+  posts {
+    _id
+    name
+    title
+    date
+    thumbnail
+    categories
+    tags
+    article
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PostsGQL extends Apollo.Query<PostsQuery, PostsQueryVariables> {
+    document = PostsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

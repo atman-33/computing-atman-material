@@ -1,1 +1,2 @@
-export * from './lib/angular-shared-domain';
+export { Shared } from './lib/shared';
+

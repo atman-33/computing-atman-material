@@ -5,6 +5,7 @@ import { Response } from 'express';
 import { readFile, readdir } from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
+import { GetPostArgs } from './dto/args/get-post-args.dto';
 import { CreatePostInput } from './dto/input/create-post-input.dto';
 import { Post } from './models/post.model';
 import { PostDocument } from './models/post.schema';
@@ -35,6 +36,20 @@ export class PostsService {
 
         console.log('initialized post data.');
         return posts;
+    }
+
+    async getPosts() : Promise<Post[]>{
+        const postDocuments = await this.postsRepository.find({});
+        return postDocuments.map((post) => this.toModel(post));
+    }
+
+    async getPost(
+        getPostArgs: GetPostArgs,
+    ) {
+        const postDocument = await this.postsRepository.findOne({
+            ...getPostArgs
+        });
+        return this.toModel(postDocument);
     }
 
     /**

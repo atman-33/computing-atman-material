@@ -1,0 +1,12 @@
+query posts {
+    posts {
+        _id
+        name
+        title
+        date
+        thumbnail
+        categories
+        tags
+        article        
+    }
+}
