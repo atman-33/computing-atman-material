@@ -7,7 +7,7 @@ export class PostsController {
     constructor(private readonly postsService: PostsService) {}
 
     @Get('names')
-    async findPostNames(): Promise<string[]> {
-        return await this.postsService.findPostNames();
+    async getPostsNames(): Promise<string[]> {
+        return await this.postsService.getPostsNames();
     }
 }

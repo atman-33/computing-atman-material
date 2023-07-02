@@ -6,8 +6,8 @@ import { PostsService } from './posts.service';
 export class PostsResolver {
     constructor(private readonly postsService: PostsService){}
 
-    @Mutation(() => [Post])
-    async initializeData(): Promise<Post[]>{
-        return this.postsService.initializeData();
+    @Mutation(()=> [Post])
+    async initializePostData(): Promise<Post[]>{
+        return this.postsService.initializePostData();
     }
 }

@@ -1,1 +1,1 @@
-export * from './lib/nest-shared-domain';
+export * as MarkdownHelper from './lib/modules/helpers/markdown-helper';
