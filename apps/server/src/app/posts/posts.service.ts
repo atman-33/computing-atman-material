@@ -1,6 +1,7 @@
 import { MarkdownHelper } from '@libs/nest-shared/domain';
 import { SortUtils } from '@libs/shared/domain';
 import { Injectable } from '@nestjs/common';
+import { Response } from 'express';
 import { readFile, readdir } from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
@@ -17,21 +18,21 @@ export class PostsService {
     constructor(private readonly postsRepository: PostsRepository) { }
 
     async initializePostData(): Promise<Post[]> {
-        
+
         // delete all posts data
         await this.postsRepository.deleteMany({});
 
         // create all posts data
         const posts: Post[] = [];
         const postInputs = await this.createPostsInput();
-        for(const postInput of postInputs){
+        for (const postInput of postInputs) {
             const postDocument = await this.postsRepository.create({
                 ...postInput
-            })
+            });
             // console.log(`post created: ${postInput.name}`);
             posts.push(this.toModel(postDocument));
         }
-        
+
         console.log('initialized post data.');
         return posts;
     }
@@ -56,6 +57,11 @@ export class PostsService {
             console.error(`Failed to read directories: ${error}`);
             throw new Error('Failed to read directories');
         }
+    }
+
+    getPostImageFile(name: string, file: string, res: Response) {
+        const imageFilePath = join(process.cwd(), this.distPostsPath, name, file);
+        return res.sendFile(imageFilePath);
     }
 
     private async createPostsInput(): Promise<CreatePostInput[]> {
@@ -95,8 +101,8 @@ export class PostsService {
 
         if (createPostData.thumbnail) {
             createPostData.thumbnail = join('/api/posts/img', createPostData.name, createPostData.thumbnail);
-        }        
-        createPostData.article = MarkdownHelper.addMdPrefixToImageSource(createPostData.article, './api/posts/img/' + createPostData.name + '/');
+        }
+        createPostData.article = MarkdownHelper.addMdPrefixToImageSource(createPostData.article, '/api/posts/img/' + createPostData.name + '/');
 
         return createPostData;
     }
