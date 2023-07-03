@@ -1,0 +1,21 @@
+@use '../../styles/neumorphism/neumorphism.scss';
+
+// main{
+//     background-color: #e6e7ee;
+// }
+
+.container {
+    overflow: hidden;
+}
+
+.card-text {
+    font-size: 14px;
+}
+
+a.underline-link {
+    text-decoration: underline;
+}
+
+.container {
+    max-width: none;
+}

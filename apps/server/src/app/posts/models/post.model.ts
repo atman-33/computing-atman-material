@@ -27,4 +27,7 @@ export class Post extends AbstractModel {
 
     @Field()
     readonly article: string;
+
+    @Field()
+    readonly lead: string;
 }

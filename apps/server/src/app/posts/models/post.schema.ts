@@ -23,6 +23,9 @@ export class PostDocument extends AbstractDocument{
 
     @Prop()
     article: string
+
+    @Prop()
+    lead: string
 }
 
 export const PostSchema = SchemaFactory.createForClass(PostDocument);

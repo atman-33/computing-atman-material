@@ -11,7 +11,7 @@ import { Post, PostsGQL } from '../../../generated-types';
 export class PostsComponent implements OnInit {
 
   public readonly defaultThumbnail = Shared.DEFAULT_BLOG_THUMBNAIL_PATH;
-  public readonly articleLeadMaxLength = Shared.ARTICLE_LEAD_MAX_LENGTH;
+  // public readonly articleLeadMaxLength = Shared.ARTICLE_LEAD_MAX_LENGTH;
 
   posts$!: Observable<Post[]>;
 

@@ -73,6 +73,7 @@ export type Post = {
   article: Scalars['String']['output'];
   categories?: Maybe<Array<Scalars['String']['output']>>;
   date: Scalars['DateTime']['output'];
+  lead: Scalars['String']['output'];
   name: Scalars['String']['output'];
   tags?: Maybe<Array<Scalars['String']['output']>>;
   thumbnail?: Maybe<Scalars['String']['output']>;
@@ -136,7 +137,7 @@ export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __type
 export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, article: string }> };
+export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, article: string, lead: string }> };
 
 export type LinksQueryVariables = Exact<{
   urls: Array<Scalars['String']['input']> | Scalars['String']['input'];
@@ -219,6 +220,7 @@ export const PostsDocument = gql`
     categories
     tags
     article
+    lead
   }
 }
     `;

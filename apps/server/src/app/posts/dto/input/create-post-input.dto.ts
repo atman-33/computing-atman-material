@@ -33,4 +33,8 @@ export class CreatePostInput {
     @IsNotEmpty()
     @IsString()
     article: string;
+
+    @Field()
+    @IsString()
+    lead: string;
 }

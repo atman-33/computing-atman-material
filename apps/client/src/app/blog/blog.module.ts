@@ -16,7 +16,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [BlogComponent],
+  declarations: [
+    BlogComponent,
+  ],
   imports: [
     RouterModule.forChild(routes),
     CommonModule,

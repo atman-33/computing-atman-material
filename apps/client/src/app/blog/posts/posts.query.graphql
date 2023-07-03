@@ -7,6 +7,7 @@ query posts {
         thumbnail
         categories
         tags
-        article        
+        article
+        lead        
     }
 }

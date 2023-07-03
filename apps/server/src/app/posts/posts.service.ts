@@ -1,5 +1,5 @@
-import { MarkdownHelper } from '@libs/nest-shared/domain';
-import { SortUtils } from '@libs/shared/domain';
+import { MarkdownHelper, Shared } from '@libs/nest-shared/domain';
+import { HtmlUtils, SortUtils } from '@libs/shared/domain';
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { readFile, readdir } from 'fs';
@@ -112,12 +112,14 @@ export class PostsService {
             categories: MarkdownHelper.getMetadataArray(content, 'categories:'),
             tags: MarkdownHelper.getMetadataArray(content, 'tags:'),
             article: MarkdownHelper.getMdContent(content),
-        };
+            lead: ''
+        };        
 
         if (createPostData.thumbnail) {
             createPostData.thumbnail = join('/api/posts/img', createPostData.name, createPostData.thumbnail);
         }
         createPostData.article = MarkdownHelper.addMdPrefixToImageSource(createPostData.article, '/api/posts/img/' + createPostData.name + '/');
+        createPostData.lead = HtmlUtils.extractLead(createPostData.article, Shared.ARTICLE_LEAD_MAX_LENGTH);
 
         return createPostData;
     }
