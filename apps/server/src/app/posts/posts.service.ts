@@ -7,8 +7,10 @@ import { join } from 'path';
 import { promisify } from 'util';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
 import { CreatePostInput } from './dto/input/create-post-input.dto';
+import { CategoryCount } from './models/category-count.model';
 import { Post } from './models/post.model';
 import { PostDocument } from './models/post.schema';
+import { TagCount } from './models/tag-count.model';
 import { PostsRepository } from './posts.repository';
 
 @Injectable()
@@ -38,7 +40,7 @@ export class PostsService {
         return posts;
     }
 
-    async getPosts() : Promise<Post[]>{
+    async getPosts(): Promise<Post[]> {
         const postDocuments = await this.postsRepository.find({});
         return postDocuments.map((post) => this.toModel(post));
     }
@@ -50,6 +52,66 @@ export class PostsService {
             ...getPostArgs
         });
         return this.toModel(postDocument);
+    }
+
+    async getCategoryCounts(): Promise<CategoryCount[]> {
+        const categoryCounts = await this.postsRepository.aggregate([
+            {
+                $group: {
+                    _id: "$categories",
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $unwind: "$_id"
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    count: { $sum: "$count" }
+                }
+            },
+            {
+                $sort: {
+                    count: -1 // order by count desc
+                }
+            }
+        ]);
+
+        return categoryCounts.map(({ _id, count }) => ({
+            category: _id,
+            count
+        }));
+    }
+
+    async getTagCounts(): Promise<TagCount[]> {
+        const tagCounts = await this.postsRepository.aggregate([
+            {
+                $group: {
+                    _id: "$tags",
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $unwind: "$_id"
+            },
+            {
+                $group: {
+                    _id: "$_id",
+                    count: { $sum: "$count" }
+                }
+            },
+            {
+                $sort: {
+                    count: -1 // order by count desc
+                }
+            }
+        ]);
+
+        return tagCounts.map(({ _id, count }) => ({
+            tag: _id,
+            count
+        }));
     }
 
     /**
@@ -113,7 +175,7 @@ export class PostsService {
             tags: MarkdownHelper.getMetadataArray(content, 'tags:'),
             article: MarkdownHelper.getMdContent(content),
             lead: ''
-        };        
+        };
 
         if (createPostData.thumbnail) {
             createPostData.thumbnail = join('/api/posts/img', createPostData.name, createPostData.thumbnail);

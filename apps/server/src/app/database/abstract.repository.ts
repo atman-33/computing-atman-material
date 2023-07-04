@@ -55,5 +55,9 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument>{
             this.logger.warn('No documents found for deletion with filterQuery', filterQuery);
             // throw new NotFoundException('No documents found for deletion.');
         }
-    }    
+    }
+    
+    async aggregate(pipeline: any[]): Promise<any[]> {
+        return this.model.aggregate(pipeline);
+    }      
 }
