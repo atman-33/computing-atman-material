@@ -44,36 +44,8 @@ export abstract class AbstractRepository<TDocument extends AbstractDocument>{
         return document;
     }
 
-    async find(
-        filterQuery: FilterQuery<TDocument>,
-        pageSize?: number,
-        cursor?: string,
-        sortField?: keyof TDocument,
-        sortOrder: 'asc' | 'desc' = 'desc',
-    ): Promise<TDocument[]> {
-        if (!pageSize) {
-            return this.model.find(filterQuery, {}, { lean: true });
-        }
-
-        let query = filterQuery;
-
-        if (cursor && sortField) {
-            query = {
-                ...query,
-                [sortField]: { $lt: cursor },
-            };
-        }
-
-        const sortDirection: { [key: string]: 'asc' | 'desc'; } = sortField
-            ? {
-                [sortField]: sortOrder,
-            }
-            : {};
-
-        return this.model
-            .find(query, {}, { lean: true })
-            .sort(sortDirection)
-            .limit(pageSize);
+    async find(filterQuery: FilterQuery<TDocument>) {
+        return this.model.find(filterQuery, {}, { lean: true });
     }
 
     async deleteMany(filterQuery: FilterQuery<TDocument>): Promise<void> {

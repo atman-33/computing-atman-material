@@ -1,7 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { index } from '@typegoose/typegoose';
 import { AbstractDocument } from '../../database/abstract.schema';
 
 @Schema({ versionKey: false})
+@index({ name: 'text', title: 'text', article: 'text', lead: 'text' })
 export class PostDocument extends AbstractDocument{
     @Prop()
     name: string

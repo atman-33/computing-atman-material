@@ -1,17 +1,19 @@
 import { ArgsType, Field, Int } from '@nestjs/graphql';
-import { PostDocument } from '../../models/post.schema';
 
 @ArgsType()
 export class GetPaginatedPostsArgs {
-    @Field(() => Int)
-    pageSize: number;
+    @Field(() => Int, { nullable: true })
+    first?: number;
 
     @Field({ nullable: true })
-    cursor?: string;
+    after?: string;
 
-    @Field(() => String, { nullable: true })
-    sortField?: keyof PostDocument;
+    @Field(() => Int, { nullable: true })
+    last?: number;
 
     @Field({ nullable: true })
-    sortOrder?: 'asc' | 'desc';
+    before?: string;
+
+    @Field()
+    query: string;
 }

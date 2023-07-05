@@ -24,8 +24,7 @@ export class PostsResolver {
     async getPaginatedPosts(
         @Args() getPaginatedPostsArgs: GetPaginatedPostsArgs,
     ): Promise<Post[]> {
-        const { pageSize, cursor, sortField, sortOrder } = getPaginatedPostsArgs;
-        return this.postsService.getPaginatedPosts(pageSize, cursor, sortField, sortOrder);
+        return this.postsService.getPaginatedPosts(getPaginatedPostsArgs);
     }
 
     @Query(() => Post, { name: 'post' })

@@ -107,9 +107,9 @@ npm install class-validator class-transformer
 npm install @nestjs/mongoose mongoose @nestjs/config
 ```
 
-## install mongoose-relay-paginate
+## install @typegoose/typegoose
 ```
-npm install mongoose-relay-paginate --force
+npm i @typegoose/typegoose
 ```
 
 ## install joi for nestjs *joi for validating .env values

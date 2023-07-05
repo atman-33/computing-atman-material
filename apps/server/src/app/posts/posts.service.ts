@@ -1,10 +1,13 @@
 import { MarkdownHelper, Shared } from '@libs/nest-shared/domain';
 import { HtmlUtils, SortUtils } from '@libs/shared/domain';
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { Response } from 'express';
 import { readFile, readdir } from 'fs';
+import { FilterQuery, Model } from 'mongoose';
 import { join } from 'path';
 import { promisify } from 'util';
+import { GetPaginatedPostsArgs } from './dto/args/get-paginated-posts-args.dto';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
 import { CreatePostInput } from './dto/input/create-post-input.dto';
 import { CategoryCount } from './models/category-count.model';
@@ -18,7 +21,10 @@ export class PostsService {
 
     private readonly distPostsPath = 'dist/apps/server/assets/posts';
 
-    constructor(private readonly postsRepository: PostsRepository) { }
+    constructor(
+        @InjectModel(Post.name) private postModel: Model<PostDocument>,
+        private readonly postsRepository: PostsRepository
+    ) { }
 
     async initializePostData(): Promise<Post[]> {
 
@@ -45,21 +51,43 @@ export class PostsService {
         return postDocuments.map((post) => this.toModel(post));
     }
 
-    async getPaginatedPosts(
-        pageSize: number,
-        cursor?: string,
-        sortField: keyof PostDocument = '_id',
-        sortOrder: 'asc' | 'desc' = 'desc',
-    ): Promise<Post[]> {
-        const filterQuery = {};
-        const postDocuments = await this.postsRepository.find(
-            filterQuery,
-            pageSize,
-            cursor,
-            sortField,
-            sortOrder,
-        );
-        return postDocuments.map((post) => this.toModel(post));
+    async getPaginatedPosts(args: GetPaginatedPostsArgs): Promise<Post[]> {
+        const { first, after, last, before, query } = args;
+
+        let filterQuery: FilterQuery<PostDocument> = {};
+
+        if (after) {
+            filterQuery = {
+                _id: { $gt: after },
+            };
+        }
+
+        if (before) {
+            filterQuery = {
+                _id: { $lt: before },
+            };
+        }
+
+        if (query) {
+            filterQuery = {
+                ...filterQuery,
+                $text: { $search: query },
+            };
+        }
+
+        let postsQuery = this.postModel.find(filterQuery);
+
+        if (first) {
+            postsQuery = postsQuery.limit(first);
+        }
+
+        if (last) {
+            postsQuery = postsQuery.limit(last);
+        }
+
+        const posts = await postsQuery.exec();
+
+        return posts.map((post) => this.toModel(post));
     }
 
     async getPost(
