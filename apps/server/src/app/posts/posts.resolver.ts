@@ -1,4 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { GetPaginatedPostsArgs } from './dto/args/get-paginated-posts-args.dto';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
 import { CategoryCount } from './models/category-count.model';
 import { Post } from './models/post.model';
@@ -15,9 +16,16 @@ export class PostsResolver {
     }
 
     @Query(() => [Post], { name: 'posts' })
-    async getPosts(
-    ) {
-        return this.postsService.getPosts();
+    async getAllPosts(): Promise<Post[]> {
+        return this.postsService.getAllPosts();
+    }
+
+    @Query(() => [Post], { name: 'paginatedPosts' })
+    async getPaginatedPosts(
+        @Args() getPaginatedPostsArgs: GetPaginatedPostsArgs,
+    ): Promise<Post[]> {
+        const { pageSize, cursor, sortField, sortOrder } = getPaginatedPostsArgs;
+        return this.postsService.getPaginatedPosts(pageSize, cursor, sortField, sortOrder);
     }
 
     @Query(() => Post, { name: 'post' })

@@ -40,8 +40,25 @@ export class PostsService {
         return posts;
     }
 
-    async getPosts(): Promise<Post[]> {
+    async getAllPosts(): Promise<Post[]> {
         const postDocuments = await this.postsRepository.find({});
+        return postDocuments.map((post) => this.toModel(post));
+    }
+
+    async getPaginatedPosts(
+        pageSize: number,
+        cursor?: string,
+        sortField: keyof PostDocument = '_id',
+        sortOrder: 'asc' | 'desc' = 'desc',
+    ): Promise<Post[]> {
+        const filterQuery = {};
+        const postDocuments = await this.postsRepository.find(
+            filterQuery,
+            pageSize,
+            cursor,
+            sortField,
+            sortOrder,
+        );
         return postDocuments.map((post) => this.toModel(post));
     }
 
