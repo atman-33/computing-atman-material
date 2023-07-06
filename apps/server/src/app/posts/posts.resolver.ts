@@ -16,15 +16,8 @@ export class PostsResolver {
     }
 
     @Query(() => [Post], { name: 'posts' })
-    async getAllPosts(): Promise<Post[]> {
-        return this.postsService.getAllPosts();
-    }
-
-    @Query(() => [Post], { name: 'paginatedPosts' })
-    async getPaginatedPosts(
-        @Args() getPaginatedPostsArgs: GetPaginatedPostsArgs,
-    ): Promise<Post[]> {
-        return this.postsService.getPaginatedPosts(getPaginatedPostsArgs);
+    async getPosts(): Promise<Post[]> {
+        return this.postsService.getPosts();
     }
 
     @Query(() => Post, { name: 'post' })
@@ -32,6 +25,16 @@ export class PostsResolver {
         @Args() getPostArgs: GetPostArgs,
     ) {
         return this.postsService.getPost(getPostArgs);
+    }
+
+    @Query(() => [Post], { name: 'paginatedPosts' })
+    async getPaginatedPosts(
+        @Args() getPaginatedPostsArgs: GetPaginatedPostsArgs,
+    ): Promise<Post[]> {
+        // const res = await this.postsService.getPaginatedPosts(getPaginatedPostsArgs);
+        // console.log(res);
+        // return res;
+        return this.postsService.getPaginatedPosts(getPaginatedPostsArgs);
     }
 
     @Query(() => [CategoryCount], { name: 'categoryCounts' })

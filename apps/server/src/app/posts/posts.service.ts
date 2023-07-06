@@ -46,13 +46,24 @@ export class PostsService {
         return posts;
     }
 
-    async getAllPosts(): Promise<Post[]> {
+    async getPosts(): Promise<Post[]> {
         const postDocuments = await this.postsRepository.find({});
         return postDocuments.map((post) => this.toModel(post));
     }
 
+    async getPost(
+        getPostArgs: GetPostArgs,
+    ) {
+        const postDocument = await this.postsRepository.findOne({
+            ...getPostArgs
+        });
+        return this.toModel(postDocument);
+    }
+
     async getPaginatedPosts(args: GetPaginatedPostsArgs): Promise<Post[]> {
         const { first, after, last, before, query } = args;
+
+        // TODO: Date順に並び替え、かつfirst/lastを正しく実装する必要あり
 
         let filterQuery: FilterQuery<PostDocument> = {};
 
@@ -86,17 +97,10 @@ export class PostsService {
         }
 
         const posts = await postsQuery.exec();
+        // console.log(posts);
 
-        return posts.map((post) => this.toModel(post));
-    }
-
-    async getPost(
-        getPostArgs: GetPostArgs,
-    ) {
-        const postDocument = await this.postsRepository.findOne({
-            ...getPostArgs
-        });
-        return this.toModel(postDocument);
+        // post is Document(mongoose) type. then use toObject()
+        return posts.map((post) => this.toModel(post.toObject()));
     }
 
     async getCategoryCounts(): Promise<CategoryCount[]> {

@@ -14,6 +14,6 @@ export class GetPaginatedPostsArgs {
     @Field({ nullable: true })
     before?: string;
 
-    @Field()
-    query: string;
+    @Field({ nullable: true })
+    query?: string;
 }

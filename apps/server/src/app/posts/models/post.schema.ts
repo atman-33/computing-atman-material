@@ -1,14 +1,12 @@
 import { AbstractDocument } from '@libs/nest-shared/domain';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { index } from '@typegoose/typegoose';
 
 @Schema({ versionKey: false})
-@index({ name: 'text', title: 'text', article: 'text', lead: 'text' })
 export class PostDocument extends AbstractDocument{
-    @Prop()
+    @Prop({index: true, text:true})
     name: string
 
-    @Prop()
+    @Prop({text:true})
     title: string;
 
     @Prop({ type: Date})
@@ -23,7 +21,7 @@ export class PostDocument extends AbstractDocument{
     @Prop([String])
     tags?: string[]
 
-    @Prop()
+    @Prop({text:true})
     article: string
 
     @Prop()
