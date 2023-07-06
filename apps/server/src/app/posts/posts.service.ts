@@ -1,4 +1,4 @@
-import { MarkdownHelper, Shared } from '@libs/nest-shared/domain';
+import { Consts, MarkdownHelper } from '@libs/nest-shared/domain';
 import { HtmlUtils, SortUtils } from '@libs/shared/domain';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -226,7 +226,7 @@ export class PostsService {
             createPostData.thumbnail = join('/api/posts/img', createPostData.name, createPostData.thumbnail);
         }
         createPostData.article = MarkdownHelper.addMdPrefixToImageSource(createPostData.article, '/api/posts/img/' + createPostData.name + '/');
-        createPostData.lead = HtmlUtils.extractLead(createPostData.article, Shared.ARTICLE_LEAD_MAX_LENGTH);
+        createPostData.lead = HtmlUtils.extractLead(createPostData.article, Consts.ARTICLE_LEAD_MAX_LENGTH);
 
         return createPostData;
     }

@@ -1,6 +1,6 @@
+import { AbstractDocument } from '@libs/nest-shared/domain';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { index } from '@typegoose/typegoose';
-import { AbstractDocument } from '../../database/abstract.schema';
 
 @Schema({ versionKey: false})
 @index({ name: 'text', title: 'text', article: 'text', lead: 'text' })

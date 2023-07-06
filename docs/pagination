@@ -1,0 +1,10 @@
+## install @prisma/client
+```
+npm i @prisma/client
+```
+
+## install @devoxa/prisma-relay-cursor-connection
+```
+npm i @devoxa/prisma-relay-cursor-connection
+```
+

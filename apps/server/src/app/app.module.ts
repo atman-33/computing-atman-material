@@ -1,3 +1,4 @@
+import { DatabaseModule } from '@libs/nest-shared/domain';
 import { env } from '@libs/shared/config';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
@@ -8,10 +9,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { BookmarksModule } from './bookmarks/bookmarks.module';
-import { DatabaseModule } from './database/database.module';
 import { LinksModule } from './links/links.module';
-import { UsersModule } from './users/users.module';
 import { PostsModule } from './posts/posts.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [

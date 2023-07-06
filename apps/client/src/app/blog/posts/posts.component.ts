@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Shared } from '@libs/angular-shared/domain';
+import { Consts } from '@libs/angular-shared/domain';
 import { Observable, map } from 'rxjs';
 import { Post, PostsGQL } from '../../../generated-types';
 
@@ -10,7 +10,7 @@ import { Post, PostsGQL } from '../../../generated-types';
 })
 export class PostsComponent implements OnInit {
 
-  public readonly defaultThumbnail = Shared.DEFAULT_BLOG_THUMBNAIL_PATH;
+  public readonly defaultThumbnail = Consts.DEFAULT_BLOG_THUMBNAIL_PATH;
   // public readonly articleLeadMaxLength = Shared.ARTICLE_LEAD_MAX_LENGTH;
 
   posts$!: Observable<Post[]>;

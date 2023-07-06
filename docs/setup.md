@@ -107,11 +107,6 @@ npm install class-validator class-transformer
 npm install @nestjs/mongoose mongoose @nestjs/config
 ```
 
-## install @typegoose/typegoose
-```
-npm i @typegoose/typegoose
-```
-
 ## install joi for nestjs *joi for validating .env values
 ```
 npm install joi
@@ -252,4 +247,9 @@ async function bootstrap() {
 ## install link-preview
 ```
 npm install link-preview-js
+```
+
+## install @typegoose/typegoose
+```
+npm i @typegoose/typegoose
 ```

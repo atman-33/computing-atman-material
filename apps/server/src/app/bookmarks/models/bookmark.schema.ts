@@ -1,5 +1,5 @@
+import { AbstractDocument } from '@libs/nest-shared/domain';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { AbstractDocument } from '../../database/abstract.schema';
 
 @Schema({ versionKey: false})
 export class BookmarkDocument extends AbstractDocument {
