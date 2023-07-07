@@ -63,21 +63,7 @@ export class PostsService {
     async getPaginatedPosts(args: GetPaginatedPostsArgs): Promise<Post[]> {
         const { first, after, last, before, query } = args;
 
-        // TODO: Date順に並び替え、かつfirst/lastを正しく実装する必要あり
-
         let filterQuery: FilterQuery<PostDocument> = {};
-
-        if (after) {
-            filterQuery = {
-                _id: { $gt: after },
-            };
-        }
-
-        if (before) {
-            filterQuery = {
-                _id: { $lt: before },
-            };
-        }
 
         if (query) {
             filterQuery = {
@@ -88,12 +74,22 @@ export class PostsService {
 
         let postsQuery = this.postModel.find(filterQuery);
 
+        // after => first
+        if (after) {
+            postsQuery = postsQuery.find({ _id: { $gt: after } });
+        }
+
         if (first) {
-            postsQuery = postsQuery.limit(first);
+            postsQuery = postsQuery.sort({ _id: 1 }).limit(first);
+        }
+
+        // before => last
+        if (before) {
+            postsQuery = postsQuery.find({ _id: { $lt: before } });
         }
 
         if (last) {
-            postsQuery = postsQuery.limit(last);
+            postsQuery = postsQuery.sort({ _id: -1 }).limit(last);
         }
 
         const posts = await postsQuery.exec();
@@ -198,7 +194,7 @@ export class PostsService {
             posts.push(await this.createPostInput(name));
         }
 
-        posts = SortUtils.sortByDate(posts, 'date', 'desc');  // order by new post
+        posts = SortUtils.sortByDate(posts, 'date', 'asc');  // order by old post
 
         return posts;
     }
