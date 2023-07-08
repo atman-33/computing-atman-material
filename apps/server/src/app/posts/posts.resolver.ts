@@ -4,6 +4,7 @@ import { GetPostArgs } from './dto/args/get-post-args.dto';
 import { CategoryCount } from './models/category-count.model';
 import { Post } from './models/post.model';
 import { TagCount } from './models/tag-count.model';
+import { PostsConnection } from './posts.connection';
 import { PostsService } from './posts.service';
 
 @Resolver()
@@ -35,6 +36,13 @@ export class PostsResolver {
         // console.log(res);
         // return res;
         return this.postsService.getPostsConnection(connectionArgs);
+    }
+
+    @Query(() => PostsConnection, { name: 'test' })
+    async test(
+        @Args() connectionArgs: ConnectionArgs,
+    ): Promise<PostsConnection> {
+        return this.postsService.test(connectionArgs);
     }
 
     @Query(() => [CategoryCount], { name: 'categoryCounts' })

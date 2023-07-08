@@ -13,6 +13,7 @@ import { CategoryCount } from './models/category-count.model';
 import { Post } from './models/post.model';
 import { PostDocument } from './models/post.schema';
 import { TagCount } from './models/tag-count.model';
+import { PostsConnection } from './posts.connection';
 import { PostsRepository } from './posts.repository';
 
 @Injectable()
@@ -99,6 +100,52 @@ export class PostsService {
 
         // post is Document(mongoose) type. then use toObject()
         return posts.map((post) => this.toModel(post.toObject()));
+    }
+
+    async test(args: ConnectionArgs): Promise<PostsConnection> {
+        const { first, after, last, before, query } = args;
+
+        let filterQuery: FilterQuery<PostDocument> = {};
+
+        if (query) {
+            filterQuery = {
+                ...filterQuery,
+                $text: { $search: query },
+            };
+        }
+
+        let postsQuery = this.postModel.find(filterQuery);
+
+        // after => first
+        if (after) {
+            postsQuery = postsQuery.find({ _id: { $gt: after } });
+        }
+
+        if (first) {
+            postsQuery = postsQuery.sort({ _id: 1 }).limit(first);
+        }
+
+        // before => last
+        if (before) {
+            postsQuery = postsQuery.find({ _id: { $lt: before } });
+        }
+
+        if (last) {
+            postsQuery = postsQuery.sort({ _id: -1 }).limit(last);
+        }
+
+        let posts = await postsQuery.exec();
+        if (last) {
+            posts = posts.reverse();
+        }
+        // console.log(posts);
+
+        // post is Document(mongoose) type. then use toObject()
+        const nodes = posts.map((post) => this.toModel(post.toObject()));
+        const con = new PostsConnection()
+        con.init(nodes);
+        console.log(con);
+        return con
     }
 
     async getCategoryCounts(): Promise<CategoryCount[]> {
