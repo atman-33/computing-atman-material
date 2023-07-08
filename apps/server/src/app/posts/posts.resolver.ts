@@ -1,5 +1,5 @@
+import { ConnectionArgs } from '@libs/nest-shared/domain';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { GetPaginatedPostsArgs } from './dto/args/get-paginated-posts-args.dto';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
 import { CategoryCount } from './models/category-count.model';
 import { Post } from './models/post.model';
@@ -27,14 +27,14 @@ export class PostsResolver {
         return this.postsService.getPost(getPostArgs);
     }
 
-    @Query(() => [Post], { name: 'paginatedPosts' })
-    async getPaginatedPosts(
-        @Args() getPaginatedPostsArgs: GetPaginatedPostsArgs,
+    @Query(() => [Post], { name: 'postsConnection' })
+    async postsConnection(
+        @Args() connectionArgs: ConnectionArgs,
     ): Promise<Post[]> {
-        // const res = await this.postsService.getPaginatedPosts(getPaginatedPostsArgs);
+        // const res = await this.postsService.postsConnection(connectionArgs);
         // console.log(res);
         // return res;
-        return this.postsService.getPaginatedPosts(getPaginatedPostsArgs);
+        return this.postsService.getPostsConnection(connectionArgs);
     }
 
     @Query(() => [CategoryCount], { name: 'categoryCounts' })

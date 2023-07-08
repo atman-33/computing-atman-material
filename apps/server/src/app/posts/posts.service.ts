@@ -1,4 +1,4 @@
-import { Consts, MarkdownHelper } from '@libs/nest-shared/domain';
+import { ConnectionArgs, Consts, MarkdownHelper } from '@libs/nest-shared/domain';
 import { HtmlUtils, SortUtils } from '@libs/shared/domain';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -7,7 +7,6 @@ import { readFile, readdir } from 'fs';
 import { FilterQuery, Model } from 'mongoose';
 import { join } from 'path';
 import { promisify } from 'util';
-import { GetPaginatedPostsArgs } from './dto/args/get-paginated-posts-args.dto';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
 import { CreatePostInput } from './dto/input/create-post-input.dto';
 import { CategoryCount } from './models/category-count.model';
@@ -60,7 +59,7 @@ export class PostsService {
         return this.toModel(postDocument);
     }
 
-    async getPaginatedPosts(args: GetPaginatedPostsArgs): Promise<Post[]> {
+    async getPostsConnection(args: ConnectionArgs): Promise<Post[]> {
         const { first, after, last, before, query } = args;
 
         let filterQuery: FilterQuery<PostDocument> = {};

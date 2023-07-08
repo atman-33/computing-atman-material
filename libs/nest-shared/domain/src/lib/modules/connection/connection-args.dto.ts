@@ -1,7 +1,7 @@
 import { ArgsType, Field, Int } from '@nestjs/graphql';
 
 @ArgsType()
-export class GetPaginatedPostsArgs {
+export class ConnectionArgs {
     @Field(() => Int, { nullable: true })
     first?: number;
 
