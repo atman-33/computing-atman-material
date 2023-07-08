@@ -1,4 +1,4 @@
-import { Type } from '@nestjs/common';
+import { NotFoundException, Type } from '@nestjs/common';
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { FilterQuery, Model } from 'mongoose';
 import { AbstractModel } from '../common/abstract.model';
@@ -44,10 +44,6 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
         @Field(() => Int, { nullable: false })
         totalCount!: number;
 
-        constructor() {
-            this.edges = [];
-        }
-
         async loadConnection<TDocument extends AbstractDocument>(args: ConnectionArgs, model: Model<TDocument>) {
             const { first, after, last, before, query } = args;
 
@@ -61,6 +57,12 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
             }
 
             const countQuery = model.countDocuments(filterQuery);
+            this.totalCount = await countQuery.exec();
+            // console.log(`searched total count: ${this.totalCount}`);
+            if (this.totalCount === 0) {
+                throw new NotFoundException(`No results found. => query: ${ query }`);
+            }
+
             let postsQuery = model.find(filterQuery);
 
             // after => first
@@ -90,6 +92,7 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
             // post is Document(mongoose) type. then use toObject()
             this.nodes = posts.map((post) => this.toModel<TDocument>(post.toObject()));
 
+            this.edges = [];
             this.nodes.forEach((node) => {
                 this.edges.push({
                     cursor: node._id,
@@ -108,10 +111,8 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
                 hasNextPage: lastNode ? this.nodes[this.nodes.length - 1]._id < lastNodeModel._id : false,
                 hasPreviousPage: firstNode ? firstNodeModel._id < this.nodes[0]._id : false,
                 startCursor: this.nodes[0]._id,
-                endCursor: this.nodes[this.nodes.length -1]._id
+                endCursor: this.nodes[this.nodes.length - 1]._id
             };
-
-            this.totalCount = await countQuery.exec();
         }
 
         init(nodes: T[]) {

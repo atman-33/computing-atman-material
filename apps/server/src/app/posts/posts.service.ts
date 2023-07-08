@@ -1,10 +1,8 @@
 import { ConnectionArgs, Consts, MarkdownHelper } from '@libs/nest-shared/domain';
 import { HtmlUtils, SortUtils } from '@libs/shared/domain';
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { Response } from 'express';
 import { readFile, readdir } from 'fs';
-import { FilterQuery, Model } from 'mongoose';
 import { join } from 'path';
 import { promisify } from 'util';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
@@ -22,8 +20,8 @@ export class PostsService {
     private readonly distPostsPath = 'dist/apps/server/assets/posts';
 
     constructor(
-        @InjectModel(Post.name) private postModel: Model<PostDocument>,
-        private readonly postsRepository: PostsRepository
+        private readonly postsRepository: PostsRepository,
+        private readonly postsConnection: PostsConnection
     ) { }
 
     async initializePostData(): Promise<Post[]> {
@@ -60,96 +58,10 @@ export class PostsService {
         return this.toModel(postDocument);
     }
 
-    async getPostsConnection(args: ConnectionArgs): Promise<Post[]> {
-        const { first, after, last, before, query } = args;
+    async getPostsConnection(args: ConnectionArgs): Promise<PostsConnection> {
 
-        let filterQuery: FilterQuery<PostDocument> = {};
-
-        if (query) {
-            filterQuery = {
-                ...filterQuery,
-                $text: { $search: query },
-            };
-        }
-
-        let postsQuery = this.postModel.find(filterQuery);
-
-        // after => first
-        if (after) {
-            postsQuery = postsQuery.find({ _id: { $gt: after } });
-        }
-
-        if (first) {
-            postsQuery = postsQuery.sort({ _id: 1 }).limit(first);
-        }
-
-        // before => last
-        if (before) {
-            postsQuery = postsQuery.find({ _id: { $lt: before } });
-        }
-
-        if (last) {
-            postsQuery = postsQuery.sort({ _id: -1 }).limit(last);
-        }
-
-        let posts = await postsQuery.exec();
-        if (last) {
-            posts = posts.reverse();
-        }
-        // console.log(posts);
-
-        // post is Document(mongoose) type. then use toObject()
-        return posts.map((post) => this.toModel(post.toObject()));
-    }
-
-    async test(args: ConnectionArgs): Promise<PostsConnection> {
-        const connection = new PostsConnection()
-        await connection.loadConnection(args, this.postModel);
-        return connection;
-
-        // const { first, after, last, before, query } = args;
-
-        // let filterQuery: FilterQuery<PostDocument> = {};
-
-        // if (query) {
-        //     filterQuery = {
-        //         ...filterQuery,
-        //         $text: { $search: query },
-        //     };
-        // }
-
-        // let postsQuery = this.postModel.find(filterQuery);
-
-        // // after => first
-        // if (after) {
-        //     postsQuery = postsQuery.find({ _id: { $gt: after } });
-        // }
-
-        // if (first) {
-        //     postsQuery = postsQuery.sort({ _id: 1 }).limit(first);
-        // }
-
-        // // before => last
-        // if (before) {
-        //     postsQuery = postsQuery.find({ _id: { $lt: before } });
-        // }
-
-        // if (last) {
-        //     postsQuery = postsQuery.sort({ _id: -1 }).limit(last);
-        // }
-
-        // let posts = await postsQuery.exec();
-        // if (last) {
-        //     posts = posts.reverse();
-        // }
-        // // console.log(posts);
-
-        // // post is Document(mongoose) type. then use toObject()
-        // const nodes = posts.map((post) => this.toModel(post.toObject()));
-        // const con = new PostsConnection()
-        // con.init(nodes);
-        // console.log(con);
-        // return con
+        await this.postsConnection.loadConnection(args);
+        return this.postsConnection;
     }
 
     async getCategoryCounts(): Promise<CategoryCount[]> {

@@ -8,7 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
             useFactory: () => ({
                 uri: env.MONGODB_URI,
             }),
-        })
+        }),
     ]
 })
 export class DatabaseModule { }

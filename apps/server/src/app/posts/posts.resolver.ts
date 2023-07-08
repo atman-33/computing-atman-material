@@ -28,21 +28,11 @@ export class PostsResolver {
         return this.postsService.getPost(getPostArgs);
     }
 
-    @Query(() => [Post], { name: 'postsConnection' })
+    @Query(() => PostsConnection, { name: 'postsConnection' })
     async postsConnection(
-        @Args() connectionArgs: ConnectionArgs,
-    ): Promise<Post[]> {
-        // const res = await this.postsService.postsConnection(connectionArgs);
-        // console.log(res);
-        // return res;
-        return this.postsService.getPostsConnection(connectionArgs);
-    }
-
-    @Query(() => PostsConnection, { name: 'test' })
-    async test(
-        @Args() connectionArgs: ConnectionArgs,
+        @Args() connectionArgs: ConnectionArgs
     ): Promise<PostsConnection> {
-        return this.postsService.test(connectionArgs);
+        return this.postsService.getPostsConnection(connectionArgs);
     }
 
     @Query(() => [CategoryCount], { name: 'categoryCounts' })
