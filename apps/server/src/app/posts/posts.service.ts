@@ -91,7 +91,10 @@ export class PostsService {
             postsQuery = postsQuery.sort({ _id: -1 }).limit(last);
         }
 
-        const posts = await postsQuery.exec();
+        let posts = await postsQuery.exec();
+        if (last) {
+            posts = posts.reverse();
+        }
         // console.log(posts);
 
         // post is Document(mongoose) type. then use toObject()
