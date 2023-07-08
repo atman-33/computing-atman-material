@@ -45,47 +45,48 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
         totalCount!: number;
 
         constructor() {
-            this.edges  = []
+            this.edges = [];
         }
 
         async loadConnection<TDocument extends AbstractDocument>(args: ConnectionArgs, model: Model<TDocument>) {
             const { first, after, last, before, query } = args;
 
             let filterQuery: FilterQuery<AbstractDocument> = {};
-    
+
             if (query) {
                 filterQuery = {
                     ...filterQuery,
                     $text: { $search: query },
                 };
             }
-    
+
+            const countQuery = model.countDocuments(filterQuery);
             let postsQuery = model.find(filterQuery);
-    
+
             // after => first
             if (after) {
                 postsQuery = postsQuery.find({ _id: { $gt: after } });
             }
-    
+
             if (first) {
                 postsQuery = postsQuery.sort({ _id: 1 }).limit(first);
             }
-    
+
             // before => last
             if (before) {
                 postsQuery = postsQuery.find({ _id: { $lt: before } });
             }
-    
+
             if (last) {
                 postsQuery = postsQuery.sort({ _id: -1 }).limit(last);
             }
-    
+
             let posts = await postsQuery.exec();
             if (last) {
                 posts = posts.reverse();
             }
             // console.log(posts);
-    
+
             // post is Document(mongoose) type. then use toObject()
             this.nodes = posts.map((post) => this.toModel<TDocument>(post.toObject()));
 
@@ -96,15 +97,21 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
                 } as unknown as Edge<T>);
             });
 
+            // get text filterd first node 
+            const firstNode = await model.findOne(filterQuery).sort({ _id: 1 }).exec();
+            const firstNodeModel = this.toModel<TDocument>(firstNode.toObject());
+            // get text filterd last node 
+            const lastNode = await model.findOne(filterQuery).sort({ _id: -1 }).exec();
+            const lastNodeModel = this.toModel<TDocument>(lastNode.toObject());
+
             this.pageInfo = {
-                hasNextPage: true,
-                hasPreviousPage: true,
-                startCursor: "dummy",
-                endCursor: "dummy"
-            },
+                hasNextPage: lastNode ? this.nodes[this.nodes.length - 1]._id < lastNodeModel._id : false,
+                hasPreviousPage: firstNode ? firstNodeModel._id < this.nodes[0]._id : false,
+                startCursor: this.nodes[0]._id,
+                endCursor: this.nodes[this.nodes.length -1]._id
+            };
 
-                this.totalCount = 1;
-
+            this.totalCount = await countQuery.exec();
         }
 
         init(nodes: T[]) {

@@ -12,8 +12,8 @@ import { CreatePostInput } from './dto/input/create-post-input.dto';
 import { CategoryCount } from './models/category-count.model';
 import { Post } from './models/post.model';
 import { PostDocument } from './models/post.schema';
+import { PostsConnection } from './models/posts.connection';
 import { TagCount } from './models/tag-count.model';
-import { PostsConnection } from './posts.connection';
 import { PostsRepository } from './posts.repository';
 
 @Injectable()
