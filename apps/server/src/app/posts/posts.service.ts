@@ -103,49 +103,53 @@ export class PostsService {
     }
 
     async test(args: ConnectionArgs): Promise<PostsConnection> {
-        const { first, after, last, before, query } = args;
+        const connection = new PostsConnection()
+        await connection.loadConnection(args, this.postModel);
+        return connection;
 
-        let filterQuery: FilterQuery<PostDocument> = {};
+        // const { first, after, last, before, query } = args;
 
-        if (query) {
-            filterQuery = {
-                ...filterQuery,
-                $text: { $search: query },
-            };
-        }
+        // let filterQuery: FilterQuery<PostDocument> = {};
 
-        let postsQuery = this.postModel.find(filterQuery);
+        // if (query) {
+        //     filterQuery = {
+        //         ...filterQuery,
+        //         $text: { $search: query },
+        //     };
+        // }
 
-        // after => first
-        if (after) {
-            postsQuery = postsQuery.find({ _id: { $gt: after } });
-        }
+        // let postsQuery = this.postModel.find(filterQuery);
 
-        if (first) {
-            postsQuery = postsQuery.sort({ _id: 1 }).limit(first);
-        }
+        // // after => first
+        // if (after) {
+        //     postsQuery = postsQuery.find({ _id: { $gt: after } });
+        // }
 
-        // before => last
-        if (before) {
-            postsQuery = postsQuery.find({ _id: { $lt: before } });
-        }
+        // if (first) {
+        //     postsQuery = postsQuery.sort({ _id: 1 }).limit(first);
+        // }
 
-        if (last) {
-            postsQuery = postsQuery.sort({ _id: -1 }).limit(last);
-        }
+        // // before => last
+        // if (before) {
+        //     postsQuery = postsQuery.find({ _id: { $lt: before } });
+        // }
 
-        let posts = await postsQuery.exec();
-        if (last) {
-            posts = posts.reverse();
-        }
-        // console.log(posts);
+        // if (last) {
+        //     postsQuery = postsQuery.sort({ _id: -1 }).limit(last);
+        // }
 
-        // post is Document(mongoose) type. then use toObject()
-        const nodes = posts.map((post) => this.toModel(post.toObject()));
-        const con = new PostsConnection()
-        con.init(nodes);
-        console.log(con);
-        return con
+        // let posts = await postsQuery.exec();
+        // if (last) {
+        //     posts = posts.reverse();
+        // }
+        // // console.log(posts);
+
+        // // post is Document(mongoose) type. then use toObject()
+        // const nodes = posts.map((post) => this.toModel(post.toObject()));
+        // const con = new PostsConnection()
+        // con.init(nodes);
+        // console.log(con);
+        // return con
     }
 
     async getCategoryCounts(): Promise<CategoryCount[]> {
