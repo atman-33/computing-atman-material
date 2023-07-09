@@ -3,7 +3,7 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { FilterQuery, Model } from 'mongoose';
 import { AbstractModel } from '../common/abstract.model';
 import { AbstractDocument } from '../database/abstract.schema';
-import { ConnectionArgs } from './connection-args.dto';
+import { ConnectionQueryArgs } from './connection-query-args.dto';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>): any {
@@ -44,8 +44,10 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
         @Field(() => Int, { nullable: false })
         totalCount!: number;
 
-        async loadConnection<TDocument extends AbstractDocument>(args: ConnectionArgs, model: Model<TDocument>) {
-            const { first, after, last, before, query } = args;
+        async loadConnection<TDocument extends AbstractDocument>(
+            args: ConnectionQueryArgs, model: Model<TDocument>
+        ): Promise<void> {
+            const { query } = args;
 
             let filterQuery: FilterQuery<AbstractDocument> = {};
 
@@ -55,12 +57,20 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
                     $text: { $search: query },
                 };
             }
+            
+            await this.executeConnectionQuery(args, model, filterQuery);
+        }
+
+        async executeConnectionQuery<TDocument extends AbstractDocument>(
+            args: ConnectionQueryArgs, model: Model<TDocument>, filterQuery: FilterQuery<AbstractDocument>
+        ): Promise<void> {
+            const { first, after, last, before } = args;
 
             const countQuery = model.countDocuments(filterQuery);
             this.totalCount = await countQuery.exec();
             // console.log(`searched total count: ${this.totalCount}`);
             if (this.totalCount === 0) {
-                throw new NotFoundException(`No results found. => query: ${ query }`);
+                throw new NotFoundException(`No results found. => query: ${ filterQuery }`);
             }
 
             let connectionQuery = model.find(filterQuery);

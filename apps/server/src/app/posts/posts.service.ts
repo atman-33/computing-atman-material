@@ -1,4 +1,4 @@
-import { ConnectionArgs, Consts, MarkdownHelper } from '@libs/nest-shared/domain';
+import { ConnectionQueryArgs, Consts, MarkdownHelper } from '@libs/nest-shared/domain';
 import { HtmlUtils, ShuffleUtils, SortUtils } from '@libs/shared/domain';
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
@@ -58,9 +58,11 @@ export class PostsService {
         return this.toModel(postDocument);
     }
 
-    async getPostsConnection(args: ConnectionArgs): Promise<PostsConnection> {
+    async getPostsConnection(
+        connectionQueryArgs: ConnectionQueryArgs): Promise<PostsConnection> 
+    {
 
-        await this.postsConnection.loadConnection(args);
+        await this.postsConnection.loadConnection(connectionQueryArgs);
         return this.postsConnection;
     }
 

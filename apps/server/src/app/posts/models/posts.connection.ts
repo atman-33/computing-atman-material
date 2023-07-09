@@ -1,4 +1,4 @@
-import { ConnectionArgs, ConnectionModel } from '@libs/nest-shared/domain';
+import { ConnectionModel, ConnectionQueryArgs } from '@libs/nest-shared/domain';
 import { Injectable, Logger } from '@nestjs/common';
 import { ObjectType } from '@nestjs/graphql';
 import { InjectModel } from '@nestjs/mongoose';
@@ -17,7 +17,7 @@ export class PostsConnection extends ConnectionModel<Post>(Post){
         this.model = postModel;
     }
     
-    async loadConnection(args: ConnectionArgs){
+    async loadConnection(args: ConnectionQueryArgs){
         await super.loadConnection(args, this.model);
     }
 }

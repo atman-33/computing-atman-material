@@ -1,4 +1,4 @@
-import { ConnectionArgs } from '@libs/nest-shared/domain';
+import { ConnectionQueryArgs } from '@libs/nest-shared/domain';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
 import { CategoryCount } from './models/category-count.model';
@@ -30,9 +30,9 @@ export class PostsResolver {
 
     @Query(() => PostsConnection, { name: 'postsConnection' })
     async getPostsConnection(
-        @Args() connectionArgs: ConnectionArgs
+        @Args() connectionQueryArgs: ConnectionQueryArgs
     ): Promise<PostsConnection> {
-        return this.postsService.getPostsConnection(connectionArgs);
+        return this.postsService.getPostsConnection(connectionQueryArgs);
     }
 
     @Query(() => [Post], { name: 'randomPostsWithSameCategoryOrTag' })
