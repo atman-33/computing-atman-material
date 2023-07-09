@@ -1,5 +1,5 @@
 import { ConnectionArgs, Consts, MarkdownHelper } from '@libs/nest-shared/domain';
-import { HtmlUtils, SortUtils } from '@libs/shared/domain';
+import { HtmlUtils, ShuffleUtils, SortUtils } from '@libs/shared/domain';
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { readFile, readdir } from 'fs';
@@ -63,6 +63,32 @@ export class PostsService {
         await this.postsConnection.loadConnection(args);
         return this.postsConnection;
     }
+
+    async getRandomPostsWithSameCategoryOrTag(
+        getPostArgs: GetPostArgs,
+    ): Promise<Post[] | null> {
+
+        const post = await this.getPost(getPostArgs);    
+        if (!post) {
+          return null;
+        }
+    
+        const { categories, tags } = post;    
+        const relatedPosts = await this.postsRepository.find({
+          $or: [
+            { categories: { $in: categories} }, 
+            { tags: { $in: tags } }
+        ],
+          _id: { $ne: post._id },
+        });
+    
+        if (relatedPosts.length === 0) {
+          return null;
+        }
+    
+        const shuffledPosts = ShuffleUtils.shuffleArray(relatedPosts);
+        return shuffledPosts.slice(0, Consts.RELATED_ARTICLES_COUNT);
+      }
 
     async getCategoryCounts(): Promise<CategoryCount[]> {
         const categoryCounts = await this.postsRepository.aggregate([

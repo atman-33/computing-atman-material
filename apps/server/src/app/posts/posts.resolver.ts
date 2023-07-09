@@ -29,10 +29,17 @@ export class PostsResolver {
     }
 
     @Query(() => PostsConnection, { name: 'postsConnection' })
-    async postsConnection(
+    async getPostsConnection(
         @Args() connectionArgs: ConnectionArgs
     ): Promise<PostsConnection> {
         return this.postsService.getPostsConnection(connectionArgs);
+    }
+
+    @Query(() => [Post], { name: 'randomPostsWithSameCategoryOrTag' })
+    async getRandomPostsWithSameCategoryOrTag(
+        @Args() getPostArgs: GetPostArgs,
+    ): Promise<Post[] | null> {
+        return this.postsService.getRandomPostsWithSameCategoryOrTag(getPostArgs);
     }
 
     @Query(() => [CategoryCount], { name: 'categoryCounts' })
