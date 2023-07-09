@@ -1,6 +1,8 @@
-import { ConnectionQueryArgs } from '@libs/nest-shared/domain';
+import { ConnectionArgs, ConnectionQueryArgs } from '@libs/nest-shared/domain';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
+import { GetPostsByCategoryArgs } from './dto/args/get-posts-by-category-args.dto';
+import { GetPostsByTagArgs } from './dto/args/get-posts-by-tag-args.dto';
 import { CategoryCount } from './models/category-count.model';
 import { Post } from './models/post.model';
 import { PostsConnection } from './models/posts.connection';
@@ -33,6 +35,22 @@ export class PostsResolver {
         @Args() connectionQueryArgs: ConnectionQueryArgs
     ): Promise<PostsConnection> {
         return this.postsService.getPostsConnection(connectionQueryArgs);
+    }
+
+    @Query(() => PostsConnection, {name: 'postsByCategory'})
+    async getPostsByCategory(
+        @Args() connectionArgs: ConnectionArgs,
+        @Args() getPostsByCategoryArgs: GetPostsByCategoryArgs
+    ): Promise<PostsConnection> {
+        return this.postsService.getPostsByCategory(connectionArgs, getPostsByCategoryArgs);
+    }
+
+    @Query(() => PostsConnection, {name: 'postsByTag'})
+    async getPostsByTag(
+        @Args() connectionArgs: ConnectionArgs,
+        @Args() getPostsByTagArgs: GetPostsByTagArgs
+    ): Promise<PostsConnection> {
+        return this.postsService.getPostsByTag(connectionArgs, getPostsByTagArgs);
     }
 
     @Query(() => [Post], { name: 'randomPostsWithSameCategoryOrTag' })

@@ -1,8 +1,8 @@
-import { ConnectionModel, ConnectionQueryArgs } from '@libs/nest-shared/domain';
+import { ConnectionArgs, ConnectionModel, ConnectionQueryArgs } from '@libs/nest-shared/domain';
 import { Injectable, Logger } from '@nestjs/common';
 import { ObjectType } from '@nestjs/graphql';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Post } from './post.model';
 import { PostDocument } from './post.schema';
 
@@ -19,5 +19,25 @@ export class PostsConnection extends ConnectionModel<Post>(Post){
     
     async loadConnection(args: ConnectionQueryArgs){
         await super.loadConnection(args, this.model);
+    }
+
+    async loadConnectionByCategory(args: ConnectionArgs, category: string){
+        let filterQuery: FilterQuery<PostDocument> = {};
+
+        filterQuery = {
+             categories: { $in: category} , 
+        };
+
+        await super.loadConnectionByFilterQuery(args, this.model, filterQuery)
+    }
+
+    async loadConnectionByTag(args: ConnectionArgs, tag: string){
+        let filterQuery: FilterQuery<PostDocument> = {};
+
+        filterQuery = {
+             tags: { $in: tag} , 
+        };
+
+        await super.loadConnectionByFilterQuery(args, this.model, filterQuery)
     }
 }

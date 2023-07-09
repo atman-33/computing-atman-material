@@ -3,12 +3,14 @@ import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { FilterQuery, Model } from 'mongoose';
 import { AbstractModel } from '../common/abstract.model';
 import { AbstractDocument } from '../database/abstract.schema';
+import { ConnectionArgs } from './connection-args.dto';
 import { ConnectionQueryArgs } from './connection-query-args.dto';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>): any {
+export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>): Type<IConnection> {
 
-    @ObjectType(`${genericClass.name}PageInfo`, { isAbstract: true }) class PageInfo {
+    @ObjectType(`${genericClass.name}PageInfo`, { isAbstract: true })
+    class PageInfo {
         @Field(() => Boolean, { nullable: false })
         hasNextPage!: boolean;
 
@@ -22,7 +24,8 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
         endCursor!: string;
     }
 
-    @ObjectType(`${genericClass.name}Edge`, { isAbstract: true }) class Edge<T>  {
+    @ObjectType(`${genericClass.name}Edge`, { isAbstract: true })
+    class Edge<T>  {
         @Field(() => String, { nullable: false })
         cursor!: string;
 
@@ -31,7 +34,7 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
     }
 
     @ObjectType({ isAbstract: true })
-    class Connection {
+    class Connection implements IConnection {
         @Field(() => [genericClass], { nullable: false })
         nodes!: T[];
 
@@ -45,9 +48,9 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
         totalCount!: number;
 
         async loadConnection<TDocument extends AbstractDocument>(
-            args: ConnectionQueryArgs, model: Model<TDocument>
+            queryArgs: ConnectionQueryArgs, model: Model<TDocument>
         ): Promise<void> {
-            const { query } = args;
+            const { query } = queryArgs;
 
             let filterQuery: FilterQuery<AbstractDocument> = {};
 
@@ -57,11 +60,18 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
                     $text: { $search: query },
                 };
             }
-            
+
+            const args: ConnectionArgs = { ...queryArgs };
             await this.executeConnectionQuery(args, model, filterQuery);
         }
 
-        async executeConnectionQuery<TDocument extends AbstractDocument>(
+        async loadConnectionByFilterQuery<TDocument extends AbstractDocument>(
+            args: ConnectionArgs, model: Model<TDocument>, filterQuery: FilterQuery<AbstractDocument>
+        ): Promise<void> {
+            await this.executeConnectionQuery(args, model, filterQuery);
+        }
+
+        private async executeConnectionQuery<TDocument extends AbstractDocument>(
             args: ConnectionQueryArgs, model: Model<TDocument>, filterQuery: FilterQuery<AbstractDocument>
         ): Promise<void> {
             const { first, after, last, before } = args;
@@ -70,7 +80,7 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
             this.totalCount = await countQuery.exec();
             // console.log(`searched total count: ${this.totalCount}`);
             if (this.totalCount === 0) {
-                throw new NotFoundException(`No results found. => query: ${ filterQuery }`);
+                throw new NotFoundException(`No results found. => query: ${JSON.stringify(filterQuery)}`);
             }
 
             let connectionQuery = model.find(filterQuery);
@@ -133,5 +143,18 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
         }
     }
 
-    return Connection;
+    return Connection as Type<IConnection>;
+}
+
+interface IConnection {
+    loadConnection<TDocument extends AbstractDocument>(
+        queryArgs: ConnectionQueryArgs,
+        model: Model<TDocument>
+    ): Promise<void>;
+
+    loadConnectionByFilterQuery<TDocument extends AbstractDocument>(
+        args: ConnectionArgs,
+        model: Model<TDocument>,
+        filterQuery: FilterQuery<AbstractDocument>
+    ): Promise<void>;
 }

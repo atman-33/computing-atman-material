@@ -1,4 +1,4 @@
-import { ConnectionQueryArgs, Consts, MarkdownHelper } from '@libs/nest-shared/domain';
+import { ConnectionArgs, ConnectionQueryArgs, Consts, MarkdownHelper } from '@libs/nest-shared/domain';
 import { HtmlUtils, ShuffleUtils, SortUtils } from '@libs/shared/domain';
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
@@ -6,6 +6,8 @@ import { readFile, readdir } from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
+import { GetPostsByCategoryArgs } from './dto/args/get-posts-by-category-args.dto';
+import { GetPostsByTagArgs } from './dto/args/get-posts-by-tag-args.dto';
 import { CreatePostInput } from './dto/input/create-post-input.dto';
 import { CategoryCount } from './models/category-count.model';
 import { Post } from './models/post.model';
@@ -61,8 +63,25 @@ export class PostsService {
     async getPostsConnection(
         connectionQueryArgs: ConnectionQueryArgs): Promise<PostsConnection> 
     {
-
         await this.postsConnection.loadConnection(connectionQueryArgs);
+        return this.postsConnection;
+    }
+
+    async getPostsByCategory(
+        connectionArgs: ConnectionArgs,
+        getPostsByCategoryArgs: GetPostsByCategoryArgs
+    ): Promise<PostsConnection>
+    {
+        await this.postsConnection.loadConnectionByCategory(connectionArgs, getPostsByCategoryArgs.category);
+        return this.postsConnection;
+    }
+
+    async getPostsByTag(
+        connectionArgs: ConnectionArgs,
+        getPostsByTagArgs: GetPostsByTagArgs
+    ): Promise<PostsConnection>
+    {
+        await this.postsConnection.loadConnectionByTag(connectionArgs, getPostsByTagArgs.tag);
         return this.postsConnection;
     }
 

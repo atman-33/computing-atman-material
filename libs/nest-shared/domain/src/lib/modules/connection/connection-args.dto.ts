@@ -13,7 +13,4 @@ export class ConnectionArgs {
 
     @Field({ nullable: true })
     before?: string;
-
-    @Field({ nullable: true })
-    query?: string;
 }
