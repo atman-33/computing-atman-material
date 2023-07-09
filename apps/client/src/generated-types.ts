@@ -27,6 +27,12 @@ export type Bookmark = {
   userId: Scalars['String']['output'];
 };
 
+export type CategoryCount = {
+  __typename?: 'CategoryCount';
+  category: Scalars['String']['output'];
+  count: Scalars['Int']['output'];
+};
+
 export type CreateBookmarkInput = {
   name: Scalars['String']['input'];
 };
@@ -80,14 +86,42 @@ export type Post = {
   title: Scalars['String']['output'];
 };
 
+export type PostEdge = {
+  __typename?: 'PostEdge';
+  cursor: Scalars['String']['output'];
+  node: Post;
+};
+
+export type PostPageInfo = {
+  __typename?: 'PostPageInfo';
+  endCursor?: Maybe<Scalars['String']['output']>;
+  hasNextPage: Scalars['Boolean']['output'];
+  hasPreviousPage: Scalars['Boolean']['output'];
+  startCursor?: Maybe<Scalars['String']['output']>;
+};
+
+export type PostsConnection = {
+  __typename?: 'PostsConnection';
+  edges: Array<PostEdge>;
+  nodes: Array<Post>;
+  pageInfo: PostPageInfo;
+  totalCount: Scalars['Int']['output'];
+};
+
 export type Query = {
   __typename?: 'Query';
   bookmark: Bookmark;
   bookmarks: Array<Bookmark>;
+  categoryCounts: Array<CategoryCount>;
   currentUser: User;
   links: Array<Link>;
   post: Post;
   posts: Array<Post>;
+  postsByCategory: PostsConnection;
+  postsByTag: PostsConnection;
+  postsConnection: PostsConnection;
+  randomPostsWithSameCategoryOrTag: Array<Post>;
+  tagCounts: Array<TagCount>;
   user: User;
 };
 
@@ -107,8 +141,46 @@ export type QueryPostArgs = {
 };
 
 
+export type QueryPostsByCategoryArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  category: Scalars['String']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryPostsByTagArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  tag: Scalars['String']['input'];
+};
+
+
+export type QueryPostsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryRandomPostsWithSameCategoryOrTagArgs = {
+  _id: Scalars['String']['input'];
+};
+
+
 export type QueryUserArgs = {
   _id: Scalars['String']['input'];
+};
+
+export type TagCount = {
+  __typename?: 'TagCount';
+  count: Scalars['Int']['output'];
+  tag: Scalars['String']['output'];
 };
 
 export type UpdateBookmarkInput = {
@@ -138,6 +210,17 @@ export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, article: string, lead: string }> };
+
+export type PostsConnectionQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  after?: InputMaybe<Scalars['String']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  before?: InputMaybe<Scalars['String']['input']>;
+  query?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type PostsConnectionQuery = { __typename?: 'Query', postsConnection: { __typename?: 'PostsConnection', totalCount: number, pageInfo: { __typename?: 'PostPageInfo', startCursor?: string | null, endCursor?: string | null }, nodes: Array<{ __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, lead: string }> } };
 
 export type LinksQueryVariables = Exact<{
   urls: Array<Scalars['String']['input']> | Scalars['String']['input'];
@@ -230,6 +313,44 @@ export const PostsDocument = gql`
   })
   export class PostsGQL extends Apollo.Query<PostsQuery, PostsQueryVariables> {
     document = PostsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const PostsConnectionDocument = gql`
+    query postsConnection($first: Int, $after: String, $last: Int, $before: String, $query: String) {
+  postsConnection(
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+    query: $query
+  ) {
+    totalCount
+    pageInfo {
+      startCursor
+      endCursor
+    }
+    nodes {
+      _id
+      name
+      title
+      date
+      thumbnail
+      categories
+      tags
+      lead
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class PostsConnectionGQL extends Apollo.Query<PostsConnectionQuery, PostsConnectionQueryVariables> {
+    document = PostsConnectionDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

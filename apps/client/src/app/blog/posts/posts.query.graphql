@@ -11,3 +11,23 @@ query posts {
         lead        
     }
 }
+
+query postsConnection($first: Int, $after: String, $last: Int, $before: String, $query: String){
+  postsConnection(first: $first, after: $after, last: $last, before: $before, query: $query){
+    totalCount
+    pageInfo{
+      startCursor
+      endCursor
+    }
+    nodes{
+      _id
+      name
+      title
+      date
+      thumbnail
+      categories
+      tags
+      lead
+    }
+  }
+}
