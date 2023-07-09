@@ -6,6 +6,7 @@ import { readFile, readdir } from 'fs';
 import { join } from 'path';
 import { promisify } from 'util';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
+import { GetPostByNameArgs } from './dto/args/get-post-by-name-args.dto';
 import { GetPostsByCategoryArgs } from './dto/args/get-posts-by-category-args.dto';
 import { GetPostsByTagArgs } from './dto/args/get-posts-by-tag-args.dto';
 import { CreatePostInput } from './dto/input/create-post-input.dto';
@@ -56,6 +57,15 @@ export class PostsService {
     ) {
         const postDocument = await this.postsRepository.findOne({
             ...getPostArgs
+        });
+        return this.toModel(postDocument);
+    }
+
+    async getPostByName(
+        getPosByNameArgs: GetPostByNameArgs,
+    ) {
+        const postDocument = await this.postsRepository.findOne({
+            ...getPosByNameArgs
         });
         return this.toModel(postDocument);
     }
