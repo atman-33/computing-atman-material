@@ -63,34 +63,34 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
                 throw new NotFoundException(`No results found. => query: ${ query }`);
             }
 
-            let postsQuery = model.find(filterQuery);
+            let connectionQuery = model.find(filterQuery);
 
             // after => first
             if (after) {
-                postsQuery = postsQuery.find({ _id: { $gt: after } });
+                connectionQuery = connectionQuery.find({ _id: { $gt: after } });
             }
 
             if (first) {
-                postsQuery = postsQuery.sort({ _id: 1 }).limit(first);
+                connectionQuery = connectionQuery.sort({ _id: 1 }).limit(first);
             }
 
             // before => last
             if (before) {
-                postsQuery = postsQuery.find({ _id: { $lt: before } });
+                connectionQuery = connectionQuery.find({ _id: { $lt: before } });
             }
 
             if (last) {
-                postsQuery = postsQuery.sort({ _id: -1 }).limit(last);
+                connectionQuery = connectionQuery.sort({ _id: -1 }).limit(last);
             }
 
-            let posts = await postsQuery.exec();
+            let documents = await connectionQuery.exec();
             if (last) {
-                posts = posts.reverse();
+                documents = documents.reverse();
             }
             // console.log(posts);
 
             // post is Document(mongoose) type. then use toObject()
-            this.nodes = posts.map((post) => this.toModel<TDocument>(post.toObject()));
+            this.nodes = documents.map((post) => this.toModel<TDocument>(post.toObject()));
 
             this.edges = [];
             this.nodes.forEach((node) => {
@@ -113,26 +113,6 @@ export function ConnectionModel<T extends AbstractModel>(genericClass: Type<T>):
                 startCursor: this.nodes[0]._id,
                 endCursor: this.nodes[this.nodes.length - 1]._id
             };
-        }
-
-        init(nodes: T[]) {
-            this.nodes = nodes;
-
-            nodes.forEach((node) => {
-                this.edges.push({
-                    cursor: node._id,
-                    node: node
-                } as unknown as Edge<T>);
-            });
-
-            this.pageInfo = {
-                hasNextPage: true,
-                hasPreviousPage: true,
-                startCursor: "dummy",
-                endCursor: "dummy"
-            },
-
-                this.totalCount = 1;
         }
 
         private toModel<TDocument extends AbstractDocument>(document: TDocument): T {
