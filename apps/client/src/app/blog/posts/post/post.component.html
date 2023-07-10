@@ -12,19 +12,19 @@
                 <div class="row align-items-center justify-content-around">
                     <div class="col-md-6 col-xl-6 mt-4">
                         <div class="card bg-primary shadow-soft border-light organic-radius p-0">
-                            <img class="organic-radius img-fluid" src="{{post.thumbnail || defaultThumbnail}}"
+                            <img class="organic-radius img-fluid" src="{{thumbnail ?? defaultThumbnail}}"
                                 alt="keyboard">
                         </div>
                     </div>
                     <div class="col-md-6 col-xl-5 text-center text-md-left">
-                        <h1 class="h1 mt-4 mb-4">{{post.title}}</h1>
+                        <h1 class="h1 mt-4 mb-4">{{title}}</h1>
                         <div class="text-md-center">
                             <div class="d-flex justify-content-center align-items-center mx-2 my-2"><span
-                                    class="small"><span class="far fa-calendar-alt mr-2"></span>{{post.date}}</span>
+                                    class="small"><span class="far fa-calendar-alt mr-2"></span>{{date ?? null | usDate}}</span>
                             </div>
 
                             <div class="mt-2">
-                                <span *ngFor="let tag of post.tags">
+                                <span *ngFor="let tag of tags">
                                     <!-- <a [routerLink]="['/blog/posts']" [queryParams]="{tag: tag}"> -->
                                     <a>
                                         <span class="btn btn-pill px-2 py-1 mx-1 my-1"><span
@@ -39,7 +39,7 @@
 
                 <hr color="#808080">
 
-                <div [innerHTML]="post.article" class="post-article"></div>
+                <div [innerHTML]="article| safeHtml" class="post-content"></div>
 
                 <hr class="mt-6" color="#808080">
 <!-- 

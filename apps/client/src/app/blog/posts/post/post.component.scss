@@ -1,8 +1,10 @@
 @use '../../../styles/neumorphism/neumorphism.scss';
 
-.post-article img {
-    width: 100%;
-    height: auto;
-    max-width: 100vh;
-    max-height: 100vh;
+::ng-deep .post-content {
+    img {
+        width: 100%;
+        height: auto;
+        max-width: 80vh;
+        max-height: 100vh;
+    }
 }

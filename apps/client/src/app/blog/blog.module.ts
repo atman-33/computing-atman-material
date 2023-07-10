@@ -20,7 +20,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    BlogComponent,
+    BlogComponent
   ],
   imports: [
     RouterModule.forChild(routes),
