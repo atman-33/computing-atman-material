@@ -12,9 +12,7 @@ import { Post, PostsConnectionGQL } from '../../../generated-types';
 export class PostsComponent implements OnInit {
 
   public readonly defaultThumbnail = Consts.DEFAULT_BLOG_THUMBNAIL_PATH;
-  // public readonly articleLeadMaxLength = Shared.ARTICLE_LEAD_MAX_LENGTH;
 
-  // postsConnection$!: Observable<PostsConnection>;
   posts!: Post[];
 
   startCursor?: string | null | undefined;

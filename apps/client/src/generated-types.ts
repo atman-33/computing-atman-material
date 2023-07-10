@@ -116,6 +116,7 @@ export type Query = {
   currentUser: User;
   links: Array<Link>;
   post: Post;
+  postByName: Post;
   posts: Array<Post>;
   postsByCategory: PostsConnection;
   postsByTag: PostsConnection;
@@ -138,6 +139,11 @@ export type QueryLinksArgs = {
 
 export type QueryPostArgs = {
   _id: Scalars['String']['input'];
+};
+
+
+export type QueryPostByNameArgs = {
+  name: Scalars['String']['input'];
 };
 
 
@@ -206,10 +212,12 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', _id: string, email: string } };
 
-export type PostsQueryVariables = Exact<{ [key: string]: never; }>;
+export type PostByNameQueryVariables = Exact<{
+  name: Scalars['String']['input'];
+}>;
 
 
-export type PostsQuery = { __typename?: 'Query', posts: Array<{ __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, article: string, lead: string }> };
+export type PostByNameQuery = { __typename?: 'Query', postByName: { __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, article: string } };
 
 export type PostsConnectionQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -292,18 +300,18 @@ export const CreateUserDocument = gql`
       super(apollo);
     }
   }
-export const PostsDocument = gql`
-    query posts {
-  posts {
+export const PostByNameDocument = gql`
+    query postByName($name: String!) {
+  postByName(name: $name) {
     _id
     name
     title
+    date
     date
     thumbnail
     categories
     tags
     article
-    lead
   }
 }
     `;
@@ -311,8 +319,8 @@ export const PostsDocument = gql`
   @Injectable({
     providedIn: 'root'
   })
-  export class PostsGQL extends Apollo.Query<PostsQuery, PostsQueryVariables> {
-    document = PostsDocument;
+  export class PostByNameGQL extends Apollo.Query<PostByNameQuery, PostByNameQueryVariables> {
+    document = PostByNameDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

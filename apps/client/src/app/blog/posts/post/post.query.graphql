@@ -1,0 +1,13 @@
+query postByName($name: String!) {
+  postByName(name: $name) {
+    _id
+    name
+    title
+    date
+    date
+    thumbnail
+    categories
+    tags
+    article
+  }
+}
