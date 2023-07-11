@@ -1,3 +1,6 @@
-.margin-top{
-    margin-top: 80px;
+@use '../styles/neumorphism/neumorphism.scss';
+
+.padding-top{
+    padding-top: 80px;    
+    background-color: #e6e7ee;
 }

@@ -1,5 +1,12 @@
 @use '../../../styles/neumorphism/neumorphism.scss';
 
+article{
+    background-color: #e6e7ee;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #44476a;
+}
+
 :host ::ng-deep .post-content {
     h1 {
         font-size: xx-large;
