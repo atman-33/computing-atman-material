@@ -253,3 +253,8 @@ npm install link-preview-js
 ```
 npm i @typegoose/typegoose
 ```
+
+## install prismjs
+```
+npm i prismjs
+```
