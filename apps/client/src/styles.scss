@@ -33,6 +33,19 @@ $client-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($client-theme);
 
+/* Prismjs theme */
+@import "prismjs/themes/prism-okaidia.css";
+@import "prismjs/plugins/toolbar/prism-toolbar.css";
+@import "prismjs/plugins/line-numbers/prism-line-numbers.css";
+/* Available themes */
+// @import "prismjs/themes/prism.css";
+// @import "prismjs/themes/prism-coy.css";
+// @import "prismjs/themes/prism-dark.css";
+// @import "prismjs/themes/prism-funky.css";
+// @import "prismjs/themes/prism-solarizedlight.css";
+// @import "prismjs/themes/prism-tomorrow.css";
+// @import "prismjs/themes/prism-twilight.css";
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }

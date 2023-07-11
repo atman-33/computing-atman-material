@@ -1,10 +1,167 @@
 @use '../../../styles/neumorphism/neumorphism.scss';
 
-::ng-deep .post-content {
+:host ::ng-deep .post-content {
+    h1 {
+        font-size: xx-large;
+        font-weight: 600;
+    }
+
+    h2 {
+        font-size: x-large;
+        margin-top: 3rem;
+        margin-bottom: 1.2rem;
+        font-weight: 600;
+        line-height: 1.3;
+        color: #31344b;
+        position: relative;
+        z-index: 0;
+    }
+
+    h2:before {
+        content: '';
+        display: block;
+        height: 70px;
+        width: 70px;
+        border-radius: 50%;
+        z-index: -1;
+        position: absolute;
+        top: -2rem;
+        left: -2rem;
+        box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #fff;
+    }
+
+    h3 {
+        font-size: large;
+        font-weight: bold;
+        margin-top: 3rem;
+    }
+
+    p {
+        padding-top: 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        letter-spacing: 0.05em;
+        line-height: 1.8em;
+        font-size: 1em;
+
+        display: block;
+        margin-block-start: 1em;
+        margin-block-end: 1em;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+    }
+
+    /* strong */
+    strong {
+        background: linear-gradient(transparent 70%, yellow 70%);
+        color: red;
+    }
+
+    /* Link */
+    a {
+        color: #2D4CC8;
+        text-decoration: underline;
+    }
+
+    /* Image */
     img {
         width: 100%;
         height: auto;
         max-width: 80vh;
         max-height: 100vh;
+    }
+
+    /* Blockquote */
+    blockquote {
+        position: relative;
+        padding: 5px 12px 5px 56px;
+        box-sizing: border-box;
+        font-style: italic;
+        color: #464646;
+        background: #f0f7ff;
+        border-radius: 0.5em;
+    }
+
+    blockquote:before {
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        width: 36px;
+        height: 36px;
+        -ms-transform: translateY(-50%);
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        text-align: center;
+        content: "\f10d";
+        font-family: FontAwesome;
+        color: #FFF;
+        font-size: 20px;
+        line-height: 36px;
+        background: #a5d7ff;
+        border-radius: 50%;
+        font-weight: 900;
+    }
+
+    blockquote p {
+        position: relative;
+        padding: 0;
+        margin: 10px 0;
+        z-index: 3;
+        line-height: 1.7;
+    }
+
+    blockquote cite {
+        display: block;
+        text-align: right;
+        color: #888888;
+        font-size: 0.9em;
+    }
+
+    /* Table */
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        color: #44476A;
+        background-color: rgba(0, 0, 0, 0);
+        box-shadow: inset 2px 2px 5px #b8b9be, inset -3px -3px 7px #fff;
+        border-radius: 0.55rem;
+    }
+
+    td,
+    th {
+        border-top: 1px solid #D1D9E6;
+        border-bottom: 1px solid #D1D9E6;
+    }
+
+    tr:first-child td,
+    tr:first-child th {
+        border-top: none;
+    }
+
+    tr:last-child td,
+    tr:last-child th {
+        border-bottom: none;
+    }
+
+    thead {
+        border-bottom: 1px solid #D1D9E6;
+    }
+
+    th {
+        padding: 1rem;
+        vertical-align: top;
+        display: table-cell;
+        font-weight: bold;
+        border-bottom: 1px solid #D1D9E6;
+    }
+
+    td {
+        padding: 1rem;
+        vertical-align: top;
+        display: table-cell;
+        font-weight: 400;
     }
 }

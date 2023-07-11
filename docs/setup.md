@@ -256,5 +256,5 @@ npm i @typegoose/typegoose
 
 ## install prismjs
 ```
-npm i prismjs
+npm i prismjs @types/prismjs
 ```

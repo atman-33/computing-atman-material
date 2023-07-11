@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Consts } from '@libs/angular-shared/domain';
+import { Consts, HtmlUtils, PrismService } from '@libs/angular-shared/domain';
 import { switchMap } from 'rxjs';
 import { PostByNameGQL } from '../../../..//generated-types';
 
@@ -9,7 +9,7 @@ import { PostByNameGQL } from '../../../..//generated-types';
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
 })
-export class PostComponent implements OnInit {
+export class PostComponent implements OnInit,AfterViewChecked  {
 
   public readonly defaultThumbnail = Consts.DEFAULT_BLOG_THUMBNAIL_PATH;
 
@@ -20,9 +20,12 @@ export class PostComponent implements OnInit {
   categories: string[] | null | undefined;
   article: string | null | undefined;
 
+  private highlighted = false;
+  
   constructor(
     private readonly route: ActivatedRoute,
     private readonly postByNameGql: PostByNameGQL,
+    private prismService: PrismService,
   ) {
   }
 
@@ -39,7 +42,16 @@ export class PostComponent implements OnInit {
         this.thumbnail = result.data.postByName.thumbnail;
         this.categories = result.data.postByName.categories;
         this.tags = result.data.postByName.tags;
-        this.article = result.data.postByName.article;
+        this.article = HtmlUtils.addClassToHtml(result.data.postByName.article, 'line-numbers', 'pre');
       });
+  }
+
+  ngAfterViewChecked() {
+    // console.log('ngAfterViewChecked!');
+    if (!this.highlighted && this.article) {
+      // console.log('highlight!');
+
+      this.prismService.highlightAll();
+      this.highlighted = true;    }
   }
 }
