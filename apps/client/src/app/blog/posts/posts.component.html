@@ -27,10 +27,6 @@
             </div>  -->
 </section>
 
-<mat-paginator (page)="handlePageEvent($event)" [length]="length" [pageSize]="pageSize" [showFirstLastButtons]="true"
-    aria-label="Select page">
-</mat-paginator>
-<!-- <div> Output event: {{(pageEvent | json) || 'No events dispatched yet'}} </div> -->
 
 <main class="container">
     <div class="row flex-xl-nowrap d-flex justify-content-center">
@@ -103,4 +99,9 @@
                     <can-tag-list [tags]="sidebarTags"></can-tag-list>
                 </div> -->
     </div>
+    <mat-paginator (page)="handlePageEvent($event)" [length]="length" [pageSize]="pageSize"
+        [showFirstLastButtons]="true" aria-label="Select page">
+    </mat-paginator>
+    <!-- <div> Output event: {{(pageEvent | json) || 'No events dispatched yet'}} </div> -->
+
 </main>

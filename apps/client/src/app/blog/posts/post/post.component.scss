@@ -6,7 +6,7 @@
     margin: auto;
 }
 
-article{
+article {
     background-color: #e6e7ee;
     font-weight: 300;
     line-height: 1.5;
@@ -176,5 +176,14 @@ article{
         vertical-align: top;
         display: table-cell;
         font-weight: 400;
+    }
+
+    /* Code */
+    p code {
+        background-color: rgba(0, 0, 0, 0.1);
+        padding: 0.25em;
+        margin-left: 0.25em;
+        margin-right: 0.25em;
+        border-radius: 10px;
     }
 }
