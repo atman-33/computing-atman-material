@@ -1,6 +1,22 @@
 @use '../styles/neumorphism/neumorphism.scss';
 
-.padding-top{
-    padding-top: 80px;    
+.padding-top {
+    padding-top: 80px;
     background-color: #e6e7ee;
+}
+
+:host::ng-deep .xng-breadcrumb-root {
+    padding: 8px 16px;
+    display: inline-block;
+    border-radius: 4px;
+    // background-color: #e7f1f1;
+}
+
+:host::ng-deep .xng-breadcrumb-separator {
+    padding: 0 4px;
+}
+
+:host::ng-deep .xng-breadcrumb-trail {
+    padding: 0 4px;
+    margin-bottom: 0;
 }

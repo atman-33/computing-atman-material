@@ -1,3 +1,8 @@
 <div class="padding-top">
+    <xng-breadcrumb [separator]="iconTemplate"></xng-breadcrumb>
+    <ng-template #iconTemplate>
+        <mat-icon>chevron_right</mat-icon>
+    </ng-template>
+
     <router-outlet></router-outlet>
 </div>
