@@ -20,7 +20,9 @@ export class PostComponent implements OnInit,AfterViewChecked  {
   categories: string[] | null | undefined;
   article: string | null | undefined;
 
-  private highlighted = false;
+  highlighted = false;
+
+  isLoading = true;
   
   constructor(
     private readonly route: ActivatedRoute,
@@ -37,6 +39,8 @@ export class PostComponent implements OnInit,AfterViewChecked  {
         })
       )
       .subscribe((result) => {
+        this.isLoading = result.loading;
+
         this.title = result.data.postByName.title;
         this.date = result.data.postByName.date;
         this.thumbnail = result.data.postByName.thumbnail;

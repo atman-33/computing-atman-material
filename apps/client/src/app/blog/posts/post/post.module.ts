@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SharedModule } from '@libs/angular-shared/domain';
 import { PostComponent } from './post.component';
 
@@ -7,7 +8,8 @@ import { PostComponent } from './post.component';
   declarations: [PostComponent],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    MatProgressSpinnerModule
   ],
 })
 export class PostModule { }
