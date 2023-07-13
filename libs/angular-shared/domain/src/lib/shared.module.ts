@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { PrismComponent } from './components/prism/prism.component';
+import { PrismModule } from './components/prism/prism.module';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { USDatePipe } from './pipes/us-date.pipe';
 
@@ -24,7 +24,7 @@ import 'prismjs/components/prism-visual-basic';
 import 'prismjs/components/prism-xml-doc';
 
 @NgModule({
-  declarations: [USDatePipe, SafeHtmlPipe, PrismComponent],
-  exports: [USDatePipe, SafeHtmlPipe, PrismComponent],
+  declarations: [USDatePipe, SafeHtmlPipe],
+  exports: [USDatePipe, SafeHtmlPipe, PrismModule],
 })
 export class SharedModule {}
