@@ -34,6 +34,8 @@ export class PostsComponent implements OnInit {
   }
 
   handlePageEvent(e: PageEvent) {
+    setTimeout(() => window.scrollTo(0, 0));
+
     this.pageEvent = e;
     this.length = e.length;
     this.pageSize = e.pageSize;
