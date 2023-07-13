@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '@libs/angular-shared/domain';
+import { CategoriesModule } from '../aside/categories/categories.module';
+import { TagsModule } from '../aside/tags/tags.module';
 import { PostsComponent } from './posts.component';
 
 @NgModule({
@@ -13,7 +15,9 @@ import { PostsComponent } from './posts.component';
     RouterModule,
     MatPaginatorModule,
     FormsModule,
-    SharedModule
+    SharedModule,
+    CategoriesModule,
+    TagsModule
   ],
 })
 export class PostsModule {}

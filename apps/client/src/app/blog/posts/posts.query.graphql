@@ -17,3 +17,17 @@ query postsConnection($first: Int, $after: String, $last: Int, $before: String, 
     }
   }
 }
+
+query categoryCounts{
+  categoryCounts{
+    category
+    count
+  }
+}
+
+query tagCounts{
+  tagCounts{
+    tag
+    count
+  }
+}

@@ -230,6 +230,16 @@ export type PostsConnectionQueryVariables = Exact<{
 
 export type PostsConnectionQuery = { __typename?: 'Query', postsConnection: { __typename?: 'PostsConnection', totalCount: number, pageInfo: { __typename?: 'PostPageInfo', startCursor?: string | null, endCursor?: string | null }, nodes: Array<{ __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, lead: string }> } };
 
+export type CategoryCountsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoryCountsQuery = { __typename?: 'Query', categoryCounts: Array<{ __typename?: 'CategoryCount', category: string, count: number }> };
+
+export type TagCountsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type TagCountsQuery = { __typename?: 'Query', tagCounts: Array<{ __typename?: 'TagCount', tag: string, count: number }> };
+
 export type LinksQueryVariables = Exact<{
   urls: Array<Scalars['String']['input']> | Scalars['String']['input'];
 }>;
@@ -359,6 +369,44 @@ export const PostsConnectionDocument = gql`
   })
   export class PostsConnectionGQL extends Apollo.Query<PostsConnectionQuery, PostsConnectionQueryVariables> {
     document = PostsConnectionDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const CategoryCountsDocument = gql`
+    query categoryCounts {
+  categoryCounts {
+    category
+    count
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CategoryCountsGQL extends Apollo.Query<CategoryCountsQuery, CategoryCountsQueryVariables> {
+    document = CategoryCountsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const TagCountsDocument = gql`
+    query tagCounts {
+  tagCounts {
+    tag
+    count
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class TagCountsGQL extends Apollo.Query<TagCountsQuery, TagCountsQueryVariables> {
+    document = TagCountsDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);
