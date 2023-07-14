@@ -6,8 +6,8 @@ import { GetPostsByCategoryArgs } from './dto/args/get-posts-by-category-args.dt
 import { GetPostsByTagArgs } from './dto/args/get-posts-by-tag-args.dto';
 import { CategoryCount } from './models/category-count.model';
 import { Post } from './models/post.model';
-import { PostsConnection } from './models/posts.connection';
 import { TagCount } from './models/tag-count.model';
+import { PostsConnection } from './posts.connection';
 import { PostsService } from './posts.service';
 
 @Resolver()
@@ -46,20 +46,20 @@ export class PostsResolver {
         return this.postsService.getPostsConnection(connectionQueryArgs);
     }
 
-    @Query(() => PostsConnection, {name: 'postsByCategory'})
-    async getPostsByCategory(
+    @Query(() => PostsConnection, {name: 'postsConnectionByCategory'})
+    async getPostsConnectionByCategory(
         @Args() connectionArgs: ConnectionArgs,
         @Args() getPostsByCategoryArgs: GetPostsByCategoryArgs
     ): Promise<PostsConnection> {
-        return this.postsService.getPostsByCategory(connectionArgs, getPostsByCategoryArgs);
+        return this.postsService.getPostsConnectionByCategory(connectionArgs, getPostsByCategoryArgs);
     }
 
-    @Query(() => PostsConnection, {name: 'postsByTag'})
-    async getPostsByTag(
+    @Query(() => PostsConnection, {name: 'postsConnectionByTag'})
+    async getPostsConnectionByTag(
         @Args() connectionArgs: ConnectionArgs,
         @Args() getPostsByTagArgs: GetPostsByTagArgs
     ): Promise<PostsConnection> {
-        return this.postsService.getPostsByTag(connectionArgs, getPostsByTagArgs);
+        return this.postsService.getPostsConnectionByTag(connectionArgs, getPostsByTagArgs);
     }
 
     @Query(() => [Post], { name: 'randomPostsWithSameCategoryOrTag' })

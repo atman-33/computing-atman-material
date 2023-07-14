@@ -3,8 +3,8 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ObjectType } from '@nestjs/graphql';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
-import { Post } from './post.model';
-import { PostDocument } from './post.schema';
+import { Post } from './models/post.model';
+import { PostDocument } from './models/post.schema';
 
 @ObjectType()
 @Injectable()
