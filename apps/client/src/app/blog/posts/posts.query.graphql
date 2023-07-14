@@ -18,6 +18,26 @@ query postsConnection($first: Int, $after: String, $last: Int, $before: String, 
   }
 }
 
+query postsConnectionByQueryCategoryTag($first: Int, $after: String, $last: Int, $before: String, $query: String, $category: String, $tag: String){
+  postsConnectionByQueryCategoryTag(first: $first, after: $after, last: $last, before: $before, query: $query, category: $category, tag: $tag){
+    totalCount
+    pageInfo{
+      startCursor
+      endCursor
+    }
+    nodes{
+      _id
+      name
+      title
+      date
+      thumbnail
+      categories
+      tags
+      lead
+    }
+  }
+}
+
 query categoryCounts{
   categoryCounts{
     category
