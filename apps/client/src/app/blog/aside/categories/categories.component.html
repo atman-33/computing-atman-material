@@ -3,7 +3,7 @@
         Categories
     </h4>
     <span *ngFor="let category of categories$ | async">
-        <a>
+        <a [routerLink]="['/blog/posts']" [queryParams]="{category: category.category}">
             <div class="btn btn-pill px-2 py-1 mx-1 my-1">
                 {{category.category}}
                 <span class="badge badge-pill badge-success">{{category.count}}</span>

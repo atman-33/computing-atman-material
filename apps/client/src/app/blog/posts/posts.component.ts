@@ -49,7 +49,6 @@ export class PostsComponent implements OnInit {
 
     if (Math.floor(this.length / this.pageSize) === this.pageIndex) {
       console.log('last page');
-
       const totalCount$ = this.getPostsTotalCount(this.query);
       totalCount$.subscribe(totalCount => {
         const calculatedValue = totalCount - this.pageSize * this.pageIndex;

@@ -3,7 +3,7 @@
         Tags
     </h4>
     <span *ngFor="let tag of tags$ | async">
-        <a>
+        <a [routerLink]="['/blog/posts']" [queryParams]="{tag: tag.tag}">
             <div class="btn btn-pill px-2 py-1 mx-1 my-1">
                 {{tag.tag}}
                 <span class="badge badge-pill badge-success">{{tag.count}}</span>
