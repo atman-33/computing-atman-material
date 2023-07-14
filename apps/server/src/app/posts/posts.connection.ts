@@ -28,7 +28,7 @@ export class PostsConnection extends ConnectionModel<Post>(Post){
              categories: { $in: category} , 
         };
 
-        await super.loadConnectionByFilterQuery(args, this.model, filterQuery)
+        await super.loadConnectionByFilterQuery(args, this.model, filterQuery);
     }
 
     async loadConnectionByTag(args: ConnectionArgs, tag: string){
@@ -38,6 +38,33 @@ export class PostsConnection extends ConnectionModel<Post>(Post){
              tags: { $in: tag} , 
         };
 
-        await super.loadConnectionByFilterQuery(args, this.model, filterQuery)
+        await super.loadConnectionByFilterQuery(args, this.model, filterQuery);
+    }
+
+    async loadConnectionByQueryCategoryTag(args: ConnectionArgs, query: string, category: string, tag: string){
+        let filterQuery: FilterQuery<PostDocument> = {};
+
+        if (query) {
+            filterQuery = {
+                ...filterQuery,
+                $text: { $search: query },
+            };
+        }
+
+        if (category) {
+            filterQuery = {
+                ...filterQuery,
+                categories: { $in: category },
+            };
+        }
+
+        if (tag) {
+            filterQuery = {
+                ...filterQuery,
+                tags: { $in: tag },
+            };
+        }
+
+        await super.loadConnectionByFilterQuery(args, this.model, filterQuery);        
     }
 }

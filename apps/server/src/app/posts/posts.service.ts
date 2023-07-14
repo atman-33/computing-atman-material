@@ -8,6 +8,7 @@ import { promisify } from 'util';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
 import { GetPostByNameArgs } from './dto/args/get-post-by-name-args.dto';
 import { GetPostsByCategoryArgs } from './dto/args/get-posts-by-category-args.dto';
+import { GetPostsByQueryCategoryTagArgs } from './dto/args/get-posts-by-query-category-tag-args.dto';
 import { GetPostsByTagArgs } from './dto/args/get-posts-by-tag-args.dto';
 import { CreatePostInput } from './dto/input/create-post-input.dto';
 import { CategoryCount } from './models/category-count.model';
@@ -71,8 +72,7 @@ export class PostsService {
     }
 
     async getPostsConnection(
-        connectionQueryArgs: ConnectionQueryArgs): Promise<PostsConnection> 
-    {
+        connectionQueryArgs: ConnectionQueryArgs): Promise<PostsConnection> {
         await this.postsConnection.loadConnection(connectionQueryArgs);
         return this.postsConnection;
     }
@@ -80,18 +80,27 @@ export class PostsService {
     async getPostsConnectionByCategory(
         connectionArgs: ConnectionArgs,
         getPostsByCategoryArgs: GetPostsByCategoryArgs
-    ): Promise<PostsConnection>
-    {
-        await this.postsConnection.loadConnectionByCategory(connectionArgs, getPostsByCategoryArgs.category);
+    ): Promise<PostsConnection> {
+        const {category} = getPostsByCategoryArgs;
+        await this.postsConnection.loadConnectionByCategory(connectionArgs, category);
         return this.postsConnection;
     }
 
     async getPostsConnectionByTag(
         connectionArgs: ConnectionArgs,
         getPostsByTagArgs: GetPostsByTagArgs
-    ): Promise<PostsConnection>
-    {
-        await this.postsConnection.loadConnectionByTag(connectionArgs, getPostsByTagArgs.tag);
+    ): Promise<PostsConnection> {
+        const { tag } = getPostsByTagArgs;
+        await this.postsConnection.loadConnectionByTag(connectionArgs, tag);
+        return this.postsConnection;
+    }
+
+    async getPostsConnectionByQueryCategoryTag(
+        connectionArgs: ConnectionArgs,
+        getPostsByQueryCategoryTagArgs: GetPostsByQueryCategoryTagArgs
+    ) {
+        const { query, category, tag } = getPostsByQueryCategoryTagArgs;
+        await this.postsConnection.loadConnectionByQueryCategoryTag(connectionArgs, query, category, tag);
         return this.postsConnection;
     }
 
@@ -99,27 +108,27 @@ export class PostsService {
         getPostArgs: GetPostArgs,
     ): Promise<Post[] | null> {
 
-        const post = await this.getPost(getPostArgs);    
+        const post = await this.getPost(getPostArgs);
         if (!post) {
-          return null;
+            return null;
         }
-    
-        const { categories, tags } = post;    
+
+        const { categories, tags } = post;
         const relatedPosts = await this.postsRepository.find({
-          $or: [
-            { categories: { $in: categories} }, 
-            { tags: { $in: tags } }
-        ],
-          _id: { $ne: post._id },
+            $or: [
+                { categories: { $in: categories } },
+                { tags: { $in: tags } }
+            ],
+            _id: { $ne: post._id },
         });
-    
+
         if (relatedPosts.length === 0) {
-          return null;
+            return null;
         }
-    
+
         const shuffledPosts = ShuffleUtils.shuffleArray(relatedPosts);
         return shuffledPosts.slice(0, Consts.RELATED_ARTICLES_COUNT);
-      }
+    }
 
     async getCategoryCounts(): Promise<CategoryCount[]> {
         const categoryCounts = await this.postsRepository.aggregate([

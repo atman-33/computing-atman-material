@@ -3,6 +3,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GetPostArgs } from './dto/args/get-post-args.dto';
 import { GetPostByNameArgs } from './dto/args/get-post-by-name-args.dto';
 import { GetPostsByCategoryArgs } from './dto/args/get-posts-by-category-args.dto';
+import { GetPostsByQueryCategoryTagArgs } from './dto/args/get-posts-by-query-category-tag-args.dto';
 import { GetPostsByTagArgs } from './dto/args/get-posts-by-tag-args.dto';
 import { CategoryCount } from './models/category-count.model';
 import { Post } from './models/post.model';
@@ -60,6 +61,14 @@ export class PostsResolver {
         @Args() getPostsByTagArgs: GetPostsByTagArgs
     ): Promise<PostsConnection> {
         return this.postsService.getPostsConnectionByTag(connectionArgs, getPostsByTagArgs);
+    }
+
+    @Query(() => PostsConnection, {name: 'postsConnectionByQueryCategoryTag'})
+    async getPostsConnectionByQueryCategoryTag(
+        @Args() connectionArgs: ConnectionArgs,
+        @Args() getPostsByQueryCategoryTagArgs: GetPostsByQueryCategoryTagArgs
+    ): Promise<PostsConnection>{
+        return this.postsService.getPostsConnectionByQueryCategoryTag(connectionArgs, getPostsByQueryCategoryTagArgs);
     }
 
     @Query(() => [Post], { name: 'randomPostsWithSameCategoryOrTag' })
