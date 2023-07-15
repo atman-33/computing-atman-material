@@ -1,16 +1,25 @@
 @use '../../../styles/neumorphism/neumorphism.scss';
 
+article {
+    background-color: #e6e7ee;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #44476a;
+}
+
 .spinner {
     position: fixed;
     inset: 0;
     margin: auto;
 }
 
-article {
-    background-color: #e6e7ee;
-    font-weight: 300;
-    line-height: 1.5;
-    color: #44476a;
+.btn{
+    border-color: transparent;
+    box-shadow: none;
+}
+
+.card-text {
+    font-size: 14px;
 }
 
 :host ::ng-deep .post-content {

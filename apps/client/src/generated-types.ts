@@ -231,6 +231,13 @@ export type PostByNameQueryVariables = Exact<{
 
 export type PostByNameQuery = { __typename?: 'Query', postByName: { __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, article: string } };
 
+export type RandomPostsWithSameCategoryOrTagQueryVariables = Exact<{
+  _id: Scalars['String']['input'];
+}>;
+
+
+export type RandomPostsWithSameCategoryOrTagQuery = { __typename?: 'Query', randomPostsWithSameCategoryOrTag: Array<{ __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, tags?: Array<string> | null, lead: string }> };
+
 export type PostsConnectionQueryVariables = Exact<{
   first?: InputMaybe<Scalars['Int']['input']>;
   after?: InputMaybe<Scalars['String']['input']>;
@@ -356,6 +363,30 @@ export const PostByNameDocument = gql`
   })
   export class PostByNameGQL extends Apollo.Query<PostByNameQuery, PostByNameQueryVariables> {
     document = PostByNameDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const RandomPostsWithSameCategoryOrTagDocument = gql`
+    query randomPostsWithSameCategoryOrTag($_id: String!) {
+  randomPostsWithSameCategoryOrTag(_id: $_id) {
+    _id
+    name
+    title
+    date
+    thumbnail
+    tags
+    lead
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RandomPostsWithSameCategoryOrTagGQL extends Apollo.Query<RandomPostsWithSameCategoryOrTagQuery, RandomPostsWithSameCategoryOrTagQueryVariables> {
+    document = RandomPostsWithSameCategoryOrTagDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

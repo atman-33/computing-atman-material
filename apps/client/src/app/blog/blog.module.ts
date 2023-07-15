@@ -24,7 +24,7 @@ const routes: Routes = [
         path: 'posts/:name',
         component: PostComponent,
         data: {
-          breadcrumb: (resolvedName: string) => `Viewing ${resolvedName} now!`
+          breadcrumb: (resolvedName: string) => `Viewing "${resolvedName}" now!`
         }
       },
     ]

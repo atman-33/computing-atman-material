@@ -1,18 +1,19 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Consts, HtmlUtils, PrismService } from '@libs/angular-shared/domain';
-import { switchMap } from 'rxjs';
-import { PostByNameGQL } from '../../../..//generated-types';
+import { Observable, map, switchMap } from 'rxjs';
+import { Post, PostByNameGQL, RandomPostsWithSameCategoryOrTagGQL } from '../../../..//generated-types';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.scss'],
 })
-export class PostComponent implements OnInit,AfterViewChecked  {
+export class PostComponent implements OnInit, AfterViewChecked {
 
   public readonly defaultThumbnail = Consts.DEFAULT_BLOG_THUMBNAIL_PATH;
 
+  id!: string;
   title!: string;
   date: string | undefined;
   thumbnail: string | null | undefined;
@@ -22,11 +23,14 @@ export class PostComponent implements OnInit,AfterViewChecked  {
 
   highlighted = false;
 
+  relatedPosts$!: Observable<Post[] | null>;
+
   isLoading = true;
-  
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly postByNameGql: PostByNameGQL,
+    private readonly randomPostsWithSameCategoryTagGql: RandomPostsWithSameCategoryOrTagGQL,
     private prismService: PrismService,
   ) {
   }
@@ -41,12 +45,19 @@ export class PostComponent implements OnInit,AfterViewChecked  {
       .subscribe((result) => {
         this.isLoading = result.loading;
 
+        this.id = result.data.postByName._id;
         this.title = result.data.postByName.title;
         this.date = result.data.postByName.date;
         this.thumbnail = result.data.postByName.thumbnail;
         this.categories = result.data.postByName.categories;
         this.tags = result.data.postByName.tags;
         this.article = HtmlUtils.addClassToHtml(result.data.postByName.article, 'line-numbers', 'pre');
+
+        this.relatedPosts$ = this.randomPostsWithSameCategoryTagGql
+          .watch({ _id: this.id })
+          .valueChanges.pipe(map(result => {
+            return result.data.randomPostsWithSameCategoryOrTag as unknown as Post[];
+          }));
       });
   }
 
@@ -56,6 +67,7 @@ export class PostComponent implements OnInit,AfterViewChecked  {
       // console.log('highlight!');
 
       this.prismService.highlightAll();
-      this.highlighted = true;    }
+      this.highlighted = true;
+    }
   }
 }

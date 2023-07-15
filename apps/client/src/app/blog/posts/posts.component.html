@@ -16,13 +16,23 @@
         <div class="ml-4">
             {{ length }} results
             <span *ngIf="queryParamsCategory" class="ml-2">
-                <span class="mx-2"><<<</span>
-                Category: {{ queryParamsCategory}}
-            </span>
-            <span *ngIf="queryParamsTag" class="ml-2">
-                <span class="mx-2"><<<</span>
-                Tag: {{ queryParamsTag}}
-            </span>
+                <span class="mx-2">
+                    <<< </span>
+                        Category: {{ queryParamsCategory}}
+                        <button class="btn border-none box-shadow-none  ml-4 px-2 py-0" type="button"
+                            (click)="clearQuery()">
+                            <span class="fas fa-times"></span>
+                        </button>
+                </span>
+                <span *ngIf="queryParamsTag" class="ml-2">
+                    <span class="mx-2">
+                        <<< </span>
+                            Tag: {{ queryParamsTag}}
+                            <button class="btn border-none box-shadow-none ml-2 px-2 py-0" type="button"
+                                (click)="clearQuery()">
+                                <span class="fas fa-times"></span>
+                            </button>
+                    </span>
         </div>
     </div>
 </section>
@@ -59,7 +69,8 @@
                                                     <div class="post-group mr-1">
                                                         <span class="fa-solid fa-tag align-self-center"></span>
                                                         <span class="px-1" *ngFor="let tag of post.tags">
-                                                            <a class="" [routerLink]="['/blog/posts']" [queryParams]="{tag: tag}">{{ tag }}</a>
+                                                            <a class="" [routerLink]="['/blog/posts']"
+                                                                [queryParams]="{tag: tag}">{{ tag }}</a>
                                                         </span>
                                                     </div>
                                                 </span>

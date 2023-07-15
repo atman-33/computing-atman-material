@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Consts } from '@libs/angular-shared/domain';
 import { Observable, map } from 'rxjs';
 import { Post, PostsConnectionByQueryCategoryTagGQL } from '../../../generated-types';
@@ -34,6 +34,7 @@ export class PostsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private readonly postsConnectionGql: PostsConnectionByQueryCategoryTagGQL
   ) { }
 
@@ -169,5 +170,14 @@ export class PostsComponent implements OnInit {
     this.queryParamsCategory = null;
     this.queryParamsTag = null;
     this.getPostsConnection(null, '', this.pageSize, '', this.query);
+
+    this.router.navigate([], {
+      queryParams: {
+        category: null,
+        tag: null
+      },
+      queryParamsHandling: 'merge',
+      replaceUrl: true
+    });
   }
 }

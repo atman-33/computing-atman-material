@@ -11,3 +11,15 @@ query postByName($name: String!) {
     article
   }
 }
+
+query randomPostsWithSameCategoryOrTag($_id: String!){
+  randomPostsWithSameCategoryOrTag(_id: $_id){
+    _id
+    name
+    title
+    date
+    thumbnail
+    tags
+    lead
+  }
+}
