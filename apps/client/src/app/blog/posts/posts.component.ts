@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { Consts } from '@libs/angular-shared/domain';
 import { Observable, map } from 'rxjs';
@@ -30,12 +30,15 @@ export class PostsComponent implements OnInit {
 
   isLoading = true;
 
+  @ViewChild('paginator', {static: true}) paginator!: MatPaginator;
+
   constructor(
     private route: ActivatedRoute,
     private readonly postsConnectionGql: PostsConnectionByQueryCategoryTagGQL
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     setTimeout(() => window.scrollTo(0, 0));
 
     // observe query params
@@ -45,10 +48,19 @@ export class PostsComponent implements OnInit {
         tag: params['tag'] || null,
       }))
     ).subscribe((result) => {
+      if (
+        this.queryParamsCategory !== result.category ||
+        this.queryParamsTag !== result.tag
+      ) {
+        // If change query params, initialize page index.
+        this.pageIndex = 0;
+        this.paginator.pageIndex = this.pageIndex;
+      }
+
       this.queryParamsCategory = result.category;
       this.queryParamsTag = result.tag;
       this.getPostsConnection(null, '', this.pageSize, '', this.query, this.queryParamsCategory, this.queryParamsTag);
-    });  
+    });
   }
 
   handlePageEvent(e: PageEvent) {
@@ -138,7 +150,7 @@ export class PostsComponent implements OnInit {
         query: query,
         category: category,
         tag: tag
-        }).subscribe(result => {
+      }).subscribe(result => {
         observer.next(result.data.postsConnectionByQueryCategoryTag.totalCount);
         observer.complete();
       });
@@ -147,10 +159,15 @@ export class PostsComponent implements OnInit {
 
   searchQuery() {
     console.log('Search query:', this.query);
+    this.queryParamsCategory = null;
+    this.queryParamsTag = null;
     this.getPostsConnection(null, '', this.pageSize, '', this.query);
   }
 
   clearQuery() {
     this.query = '';
+    this.queryParamsCategory = null;
+    this.queryParamsTag = null;
+    this.getPostsConnection(null, '', this.pageSize, '', this.query);
   }
 }

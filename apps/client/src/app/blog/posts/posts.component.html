@@ -1,7 +1,6 @@
 <section class="container">
 
-    <div class="form-group mx-4">
-        <label for="exampleInputIcon1"></label>
+    <div class="form-group mx-4 my-1">
         <div class="input-group mb-1">
             <div class="input-group-prepend">
                 <span class="input-group-text"><span class="fas fa-search"></span></span>
@@ -9,12 +8,22 @@
             <input class="form-control" placeholder="Search" type="text" aria-label="Input with icon left"
                 [(ngModel)]="query" (keydown.enter)="searchQuery()">
             <div class="input-group-append">
-                <button class="btn btn-primary" type="button" (click)="clearQuery()">
+                <button class="btn btn-primary border-none" type="button" (click)="clearQuery()">
                     <span class="fas fa-times"></span>
                 </button>
             </div>
         </div>
-        <div class="ml-4">{{ length }} results</div>
+        <div class="ml-4">
+            {{ length }} results
+            <span *ngIf="queryParamsCategory" class="ml-2">
+                <span class="mx-2"><<<</span>
+                Category: {{ queryParamsCategory}}
+            </span>
+            <span *ngIf="queryParamsTag" class="ml-2">
+                <span class="mx-2"><<<</span>
+                Tag: {{ queryParamsTag}}
+            </span>
+        </div>
     </div>
 </section>
 
@@ -42,9 +51,6 @@
                                                     class="organic-radius img-fluid">
                                             </div>
                                         </a>
-                                        <!-- <div class="card p-1 mt-2 mx-2">
-                                        <a [routerLink]="[post.id]" class="btn btn-primary btn-sm">Detail</a>
-                                    </div> -->
                                     </div>
                                     <div class="col-9">
                                         <div class="card-body px-3 py-2">
@@ -53,7 +59,7 @@
                                                     <div class="post-group mr-1">
                                                         <span class="fa-solid fa-tag align-self-center"></span>
                                                         <span class="px-1" *ngFor="let tag of post.tags">
-                                                            <a class="underline-link">{{ tag }}</a>
+                                                            <a class="" [routerLink]="['/blog/posts']" [queryParams]="{tag: tag}">{{ tag }}</a>
                                                         </span>
                                                     </div>
                                                 </span>
@@ -69,9 +75,6 @@
                                                 <h6 class="card-title my-2 font-weight-bold">{{ post.title }} </h6>
                                             </a>
                                             <p class="card-text">{{post.lead}}</p>
-                                            <!-- <div *ngIf="isGreaterThanXS">
-                                                    <p class="card-text">{{post.article}}</p>
-                                                </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +86,7 @@
         </div>
     </ng-template>
 
-    <mat-paginator (page)="handlePageEvent($event)" [length]="length" [pageSize]="pageSize"
+    <mat-paginator #paginator (page)="handlePageEvent($event)" [length]="length" [pageSize]="pageSize"
         [showFirstLastButtons]="true" aria-label="Select page">
     </mat-paginator>
     <!-- <div> Output event: {{(pageEvent | json) || 'No events dispatched yet'}} </div> -->

@@ -20,4 +20,8 @@ export class TagsComponent implements OnInit{
     .watch()
     .valueChanges.pipe(map(result => result.data.tagCounts));
   }
+
+  onLinkClick(){
+    setTimeout(() => window.scrollTo(0, 0));
+  }
 }

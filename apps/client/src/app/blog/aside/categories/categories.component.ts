@@ -21,4 +21,8 @@ export class CategoriesComponent implements OnInit{
     .watch()
     .valueChanges.pipe(map(result => result.data.categoryCounts));
   }
+
+  onLinkClick(){
+    setTimeout(() => window.scrollTo(0, 0));
+  }
 }

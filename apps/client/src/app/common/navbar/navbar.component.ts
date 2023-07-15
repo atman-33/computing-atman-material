@@ -57,4 +57,8 @@ export class NavbarComponent implements OnInit {
     this.authService.logout();
     this.isNavbarDialogOpen = false;
   }
+
+  onLinkClick(){
+    setTimeout(() => window.scrollTo(0, 0));
+  }
 }
