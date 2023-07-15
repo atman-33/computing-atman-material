@@ -10,6 +10,7 @@
 
 .link {
     margin-bottom: 0.25rem;
+    cursor: default;
 }
 
 li {
@@ -19,7 +20,11 @@ li {
 
 .card {
     border-radius: 10px;
-    background-color: ghostwhite;
+    background-color: transparent;
+    border: 0.0625rem solid rgba(243, 247, 250, 0.05);
+    border-radius: 0.55rem;
+    box-shadow: 6px 6px 12px #b8b9be, -6px -6px 12px #ffffff !important;
+    cursor: pointer;
 }
 
 .rounded-image {

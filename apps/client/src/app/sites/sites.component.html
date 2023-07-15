@@ -1,5 +1,5 @@
 <div class="container">
-    <h3>Sites</h3>
+    <h4 class="mb-0">Sites</h4>
     <ul class="links">
         <li class="link my-4" *ngFor="let site of sites">
             <mat-card class="card my-2" (click)="onLinkClick(site.url, site.isBlank)">
@@ -15,9 +15,7 @@
             </mat-card>
 
             <div *ngIf="site.source">
-                <a class="m-2" href="{{ site.source }}" target="_blank">
-                    <button mat-flat-button color="primary">Source</button>
-                </a>
+                <button mat-flat-button color="primary" (click)="onLinkClick(site.source)">Source</button>
             </div>
 
         </li>

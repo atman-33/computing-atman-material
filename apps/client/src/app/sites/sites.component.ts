@@ -12,7 +12,7 @@ export class SitesComponent {
 
   constructor(private readonly router: Router){}
 
-  onLinkClick(url: string, isBlank: string) {
+  onLinkClick(url: string, isBlank = 'true'): void {
 
     if(isBlank === 'true'){
       window.open(url, '_blank');

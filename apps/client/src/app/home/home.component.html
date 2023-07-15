@@ -25,56 +25,52 @@
 
         <div class="row mt-5 mb-5">
 
-            <div class="col-md-4 col-lg-4 text-center">
+            <div class="col-4 text-center">
                 <div class="button-container">
                     <button mat-fab color="primary" class="button-large m-2" aria-label="blog button"
                         (click)="onBlogButtonClicked()">
                         <span class="icon-large fas fa-blog"></span>
-                        <!-- <mat-icon>bookmark</mat-icon> -->
                     </button>
                     <h5>My Blog</h5>
-                    <span>
+                    <span class="d-none d-md-block">
                         IT-related information blog.<br>
                         Please take a look if you're interested.
                     </span>
                 </div>
             </div>
 
-            <div class="col-md-4 col-lg-4 text-center">
+            <div class="col-4 text-center">
                 <div class="button-container">
                     <button mat-fab color="primary" class="button-large m-2" aria-label="sites button"
                         (click)="onSitesButtonClicked()">
                         <span class="icon-large fas fa-pager"></span>
-                        <!-- <mat-icon>bookmark</mat-icon> -->
                     </button>
                     <h5>Sites</h5>
-                    <span>
+                    <span class="d-none d-md-block">
                         Various sites.<br>
                         Please feel free to use it as a reference if you like.
                     </span>
                 </div>
             </div>
-            <app-sites class="mt-4" [@fadeInOut] *ngIf="showSitesList"></app-sites>
 
-
-            <div class="col-md-4 col-lg-4 text-center">
+            <div class="col-4 text-center">
                 <div class="button-container">
                     <button mat-fab color="primary" class="button-large m-2" aria-label="games button"
                         (click)="onGamesButtonClicked()">
                         <span class="icon-large fas fa-pager"></span>
-                        <!-- <mat-icon>bookmark</mat-icon> -->
                     </button>
                     <h5>Games</h5>
-                    <span>
+                    <span class="d-none d-md-block">
                         Game made with Javascript etc.<br>
                         Please enjoy it if you like.
                     </span>
                 </div>
             </div>
-            <app-games class="mt-4" [@fadeInOut] *ngIf="showGamesList"></app-games>
 
         </div>
 
-    </div>
+        <app-sites class="mt-4" [@fadeInOut] *ngIf="showSitesList"></app-sites>
+        <app-games class="mt-4" [@fadeInOut] *ngIf="showGamesList"></app-games>
 
+    </div>
 </section>
