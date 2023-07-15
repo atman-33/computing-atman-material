@@ -1,5 +1,11 @@
 @use '../../styles/neumorphism/neumorphism.scss';
 
+.spinner {
+    position: fixed;
+    inset: 0;
+    margin: auto;
+}
+
 section, main, mat-paginator{
     background-color: #e6e7ee;
     font-weight: 300;

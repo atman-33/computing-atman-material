@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { ActivatedRoute } from '@angular/router';
 import { Consts } from '@libs/angular-shared/domain';
-import { Observable } from 'rxjs';
-import { Post, PostsConnectionGQL } from '../../../generated-types';
+import { Observable, map } from 'rxjs';
+import { Post, PostsConnectionByQueryCategoryTagGQL } from '../../../generated-types';
 
 @Component({
   selector: 'app-posts',
@@ -24,16 +25,34 @@ export class PostsComponent implements OnInit {
   pageEvent!: PageEvent;
 
   query = '';
+  queryParamsCategory = null;
+  queryParamsTag = null;
+
+  isLoading = true;
 
   constructor(
-    private readonly postsConnectionGql: PostsConnectionGQL
+    private route: ActivatedRoute,
+    private readonly postsConnectionGql: PostsConnectionByQueryCategoryTagGQL
   ) { }
 
   ngOnInit(): void {
-    this.getPostsConnection(null, '', this.pageSize, '', this.query);
+    setTimeout(() => window.scrollTo(0, 0));
+
+    // observe query params
+    this.route.queryParams.pipe(
+      map(params => ({
+        category: params['category'] || null,
+        tag: params['tag'] || null,
+      }))
+    ).subscribe((result) => {
+      this.queryParamsCategory = result.category;
+      this.queryParamsTag = result.tag;
+      this.getPostsConnection(null, '', this.pageSize, '', this.query, this.queryParamsCategory, this.queryParamsTag);
+    });  
   }
 
   handlePageEvent(e: PageEvent) {
+    this.isLoading = true;
     setTimeout(() => window.scrollTo(0, 0));
 
     this.pageEvent = e;
@@ -43,17 +62,17 @@ export class PostsComponent implements OnInit {
 
     if (this.pageIndex === 0) {
       console.log('first page');
-      this.getPostsConnection(null, null, this.pageSize, '', this.query);
+      this.getPostsConnection(null, null, this.pageSize, '', this.query, this.queryParamsCategory, this.queryParamsTag);
       return;
     }
 
     if (Math.floor(this.length / this.pageSize) === this.pageIndex) {
       console.log('last page');
-      const totalCount$ = this.getPostsTotalCount(this.query);
+      const totalCount$ = this.getPostsTotalCount(this.query, this.queryParamsCategory, this.queryParamsTag);
       totalCount$.subscribe(totalCount => {
         const calculatedValue = totalCount - this.pageSize * this.pageIndex;
         console.log(totalCount);
-        this.getPostsConnection(calculatedValue, '', null, null, this.query);
+        this.getPostsConnection(calculatedValue, '', null, null, this.query, this.queryParamsCategory, this.queryParamsTag);
       });
       return;
     }
@@ -61,13 +80,13 @@ export class PostsComponent implements OnInit {
     if (!e.previousPageIndex) {
       if (this.pageIndex === 1) {
         console.log('next page');
-        this.getPostsConnection(null, null, this.pageSize, this.startCursor, this.query);
+        this.getPostsConnection(null, null, this.pageSize, this.startCursor, this.query, this.queryParamsCategory, this.queryParamsTag);
         return;
       }
     } else {
       if (this.pageIndex === e.previousPageIndex + 1) {
         console.log('next page');
-        this.getPostsConnection(null, null, this.pageSize, this.startCursor, this.query);
+        this.getPostsConnection(null, null, this.pageSize, this.startCursor, this.query, this.queryParamsCategory, this.queryParamsTag);
         return;
       }
     }
@@ -75,7 +94,7 @@ export class PostsComponent implements OnInit {
     if (e.previousPageIndex) {
       if (this.pageIndex === e.previousPageIndex - 1) {
         console.log('previous page');
-        this.getPostsConnection(this.pageSize, this.endCursor, null, null, this.query);
+        this.getPostsConnection(this.pageSize, this.endCursor, null, null, this.query, this.queryParamsCategory, this.queryParamsTag);
         return;
       }
     }
@@ -86,30 +105,41 @@ export class PostsComponent implements OnInit {
     after: string | null | undefined,
     last: number | null,
     before: string | null | undefined,
-    query: string
+    query: string,
+    category: string | null = null,
+    tag: string | null = null
   ) {
     this.postsConnectionGql.fetch({
       first: first,
       after: after,
       last: last,
       before: before,
-      query: query
+      query: query,
+      category: category,
+      tag: tag
     }).subscribe(result => {
-      this.posts = result.data.postsConnection.nodes as unknown as Post[];
-      this.length = result.data.postsConnection.totalCount;
-      this.startCursor = result.data.postsConnection.pageInfo.startCursor;
-      this.endCursor = result.data.postsConnection.pageInfo.endCursor;
+      this.posts = result.data.postsConnectionByQueryCategoryTag.nodes as unknown as Post[];
+      this.length = result.data.postsConnectionByQueryCategoryTag.totalCount;
+      this.startCursor = result.data.postsConnectionByQueryCategoryTag.pageInfo.startCursor;
+      this.endCursor = result.data.postsConnectionByQueryCategoryTag.pageInfo.endCursor;
 
       this.posts = this.posts.slice().reverse();
+      this.isLoading = result.loading;
     });
   }
 
-  getPostsTotalCount(query: string): Observable<number> {
+  getPostsTotalCount(
+    query: string,
+    category: string | null = null,
+    tag: string | null = null
+  ): Observable<number> {
     return new Observable<number>(observer => {
       this.postsConnectionGql.fetch({
-        query: query
-      }).subscribe(result => {
-        observer.next(result.data.postsConnection.totalCount);
+        query: query,
+        category: category,
+        tag: tag
+        }).subscribe(result => {
+        observer.next(result.data.postsConnectionByQueryCategoryTag.totalCount);
         observer.complete();
       });
     });
