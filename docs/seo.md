@@ -8,7 +8,16 @@ node tools/generate-sitemap-xml.js
 
 - トップページ等の検索対象が必要なページを sitemap.xml に追加
 
-### 2. sitemap.xml を登録
+### 2. robots.txt を作成
+- robots.txt  
+```
+User-Agent: *
+Disallow:
+```
+- robots.txt を apps/client/src/ に保存  
+- client(Angular)の project.json assets に robots.txt を追加  
+
+### 3. sitemap.xml を登録
 - sitemap.xml を apps/client/src/ に保存  
 
 - client(Angular)の project.json assets に sitemap.xml を追加  
