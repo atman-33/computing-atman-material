@@ -1,4 +1,5 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Consts, HtmlUtils, PrismService } from '@libs/angular-shared/domain';
 import { Observable, map, switchMap } from 'rxjs';
@@ -33,6 +34,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
     private readonly postByNameGql: PostByNameGQL,
     private readonly randomPostsWithSameCategoryTagGql: RandomPostsWithSameCategoryOrTagGQL,
     private prismService: PrismService,
+    private titleService: Title
   ) {
   }
 
@@ -54,6 +56,9 @@ export class PostComponent implements OnInit, AfterViewChecked {
         this.categories = result.data.postByName.categories;
         this.tags = result.data.postByName.tags;
         this.article = HtmlUtils.addClassToHtml(result.data.postByName.article, 'line-numbers', 'pre');
+
+        // set title of page
+        this.titleService.setTitle(`${this.title} | Computing Atman`);
 
         this.relatedPosts$ = this.randomPostsWithSameCategoryTagGql
           .watch({ _id: this.id })
