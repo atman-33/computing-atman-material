@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 
+// importing prismjs order is important! 
 import 'prismjs';
 
 import 'prismjs/plugins/toolbar/prism-toolbar';

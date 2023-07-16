@@ -1,5 +1,5 @@
 # Google Search Console
-## 登録
+## sitemap を登録
 ### 1. sitemap.xml を作成
 - post ページのサイトマップ一覧を作成
 ```
@@ -49,6 +49,8 @@ node tools/generate-sitemap-xml.js
 ```
 
 # Google AdSense
+
+## ads.txt を作成
 - create ads.txt in apps/client/src/
 - add project.json assets *client(Angular)
 ```json
@@ -70,3 +72,5 @@ node tools/generate-sitemap-xml.js
           ...
         ],
 ```
+
+- Google AdSense に審査を依頼
