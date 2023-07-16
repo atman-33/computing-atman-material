@@ -1,5 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatButtonToggle } from '@angular/material/button-toggle';
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,24 +19,21 @@ import { Router } from '@angular/router';
     ])
   ]
 })
-export class HomeComponent {
-  showSitesList = false;
-  showGamesList = false;
+
+export class HomeComponent implements OnInit   {
+
+  @ViewChild('blogButton', { static: true }) blogButton!: MatButtonToggle;
+  @ViewChild('sitesButton', { static: true }) sitesButton!: MatButtonToggle;
+  @ViewChild('gamesButton', { static: true }) gamesButton!: MatButtonToggle;
 
   constructor(
-    private readonly router: Router) {
+    private readonly router: Router,
+  ) {
   }
 
-  onBlogButtonClicked() {
-    console.log('clicked!');
-    this.router.navigate(['/blog']);
-  }
-
-  onSitesButtonClicked() {
-    this.showSitesList = !this.showSitesList;
-  }
-
-  onGamesButtonClicked() {
-    this.showGamesList = !this.showGamesList;
+  ngOnInit(): void {
+      this.blogButton.checked = true;
+      this.sitesButton.checked = true;
+      this.gamesButton.checked = true;
   }
 }

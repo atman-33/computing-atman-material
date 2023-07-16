@@ -27,11 +27,10 @@
 
             <div class="col-4 text-center">
                 <div class="button-container">
-                    <button mat-fab color="primary" class="button-large m-2" aria-label="blog button"
-                        (click)="onBlogButtonClicked()">
-                        <span class="icon-large fas fa-blog"></span>
-                    </button>
-                    <h5>My Blog</h5>
+                    <mat-button-toggle mat-fab color="primary" class="toggle-button m-2" aria-label="blog button" #blogButton>
+                        <span class="toggle-icon fas fa-blog"></span>
+                    </mat-button-toggle>
+                    <h5>Blog</h5>
                     <span class="d-none d-md-block">
                         IT-related information blog.<br>
                         Please take a look if you're interested.
@@ -41,10 +40,9 @@
 
             <div class="col-4 text-center">
                 <div class="button-container">
-                    <button mat-fab color="primary" class="button-large m-2" aria-label="sites button"
-                        (click)="onSitesButtonClicked()">
-                        <span class="icon-large fas fa-pager"></span>
-                    </button>
+                    <mat-button-toggle mat-fab color="primary" class="toggle-button m-2" aria-label="sites button" #sitesButton>
+                        <span class="toggle-icon fas fa-pager"></span>
+                    </mat-button-toggle>
                     <h5>Sites</h5>
                     <span class="d-none d-md-block">
                         Various sites.<br>
@@ -55,10 +53,9 @@
 
             <div class="col-4 text-center">
                 <div class="button-container">
-                    <button mat-fab color="primary" class="button-large m-2" aria-label="games button"
-                        (click)="onGamesButtonClicked()">
-                        <span class="icon-large fas fa-pager"></span>
-                    </button>
+                    <mat-button-toggle mat-fab color="primary" class="toggle-button m-2" aria-label="games button" #gamesButton>
+                        <span class="toggle-icon fas fa-pager"></span>
+                    </mat-button-toggle>
                     <h5>Games</h5>
                     <span class="d-none d-md-block">
                         Game made with Javascript etc.<br>
@@ -69,8 +66,17 @@
 
         </div>
 
-        <app-sites class="mt-4" [@fadeInOut] *ngIf="showSitesList"></app-sites>
-        <app-games class="mt-4" [@fadeInOut] *ngIf="showGamesList"></app-games>
-
+        <div [@fadeInOut] *ngIf="blogButton.checked">
+            <hr/>
+            <app-latest-posts class="mt-4"></app-latest-posts>
+        </div>
+        <div  [@fadeInOut] *ngIf="sitesButton.checked">
+            <hr/>
+            <app-sites class="mt-4"></app-sites>
+        </div>
+        <div  [@fadeInOut] *ngIf="gamesButton.checked">
+            <hr/>
+            <app-games class="mt-4"></app-games>
+        </div>
     </div>
 </section>
