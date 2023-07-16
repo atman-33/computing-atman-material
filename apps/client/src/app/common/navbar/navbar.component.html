@@ -8,10 +8,10 @@
                     Computing Atman
                 </a>
                 <ng-container *ngIf="(isLoggedIn$ | async) === true">
-                    <span>
+                    <div>
                         <span class="text-success fa-solid fa-user mx-1"></span>
                         <span class="text-success font-weight-bold">{{ (currentUserEmail$ | async) }}</span>
-                    </span>
+                    </div>
                 </ng-container>
             </div>
 
