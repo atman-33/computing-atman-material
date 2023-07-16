@@ -40,7 +40,7 @@ export class PostsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    setTimeout(() => window.scrollTo(0, 0));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     // observe query params
     this.route.queryParams.pipe(
@@ -66,7 +66,7 @@ export class PostsComponent implements OnInit {
 
   handlePageEvent(e: PageEvent) {
     this.isLoading = true;
-    setTimeout(() => window.scrollTo(0, 0));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 
     this.pageEvent = e;
     this.length = e.length;

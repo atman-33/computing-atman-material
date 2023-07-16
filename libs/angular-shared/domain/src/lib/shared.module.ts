@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { PrismModule } from './components/prism/prism.module';
+import { ScrollTopDirective } from './directives/scroll-top.directive';
 import { SafeHtmlPipe } from './pipes/safe-html.pipe';
 import { USDatePipe } from './pipes/us-date.pipe';
 
+// importing prismjs order is important! 
 import 'prismjs/plugins/toolbar/prism-toolbar';
 
 import 'prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard';
@@ -24,7 +26,7 @@ import 'prismjs/components/prism-visual-basic';
 import 'prismjs/components/prism-xml-doc';
 
 @NgModule({
-  declarations: [USDatePipe, SafeHtmlPipe],
-  exports: [USDatePipe, SafeHtmlPipe, PrismModule],
+  declarations: [ScrollTopDirective, USDatePipe, SafeHtmlPipe],
+  exports: [ScrollTopDirective, USDatePipe, SafeHtmlPipe, PrismModule],
 })
-export class SharedModule {}
+export class SharedModule { }

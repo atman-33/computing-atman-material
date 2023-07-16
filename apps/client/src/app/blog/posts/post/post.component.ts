@@ -73,7 +73,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
   }
 
   onRelatedPostClick(postName: string) {
-    setTimeout(() => window.scrollTo(0, 0));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     this.router.navigate(['blog/posts', postName]);
   }
 }

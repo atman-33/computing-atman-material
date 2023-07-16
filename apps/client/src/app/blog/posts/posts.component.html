@@ -70,7 +70,9 @@
                                                         <span class="fa-solid fa-tag align-self-center"></span>
                                                         <span class="px-1" *ngFor="let tag of post.tags">
                                                             <a class="" [routerLink]="['/blog/posts']"
-                                                                [queryParams]="{tag: tag}">{{ tag }}</a>
+                                                                [queryParams]="{tag: tag}" appScrollTop>
+                                                                {{ tag }}
+                                                            </a>
                                                         </span>
                                                     </div>
                                                 </span>

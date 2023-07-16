@@ -9,7 +9,7 @@ import { CategoriesComponent } from './categories.component';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
   ],
   exports: [CategoriesComponent]
 })

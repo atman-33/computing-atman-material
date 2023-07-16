@@ -4,7 +4,7 @@
         <div class="container position-relative">
 
             <div>
-                <a class="navbar-brand py-2 px-1 rounded font-weight-bold" routerLink="/" (click)="closeNavbarDialog()">
+                <a class="navbar-brand py-2 px-1 rounded font-weight-bold" routerLink="/" (click)="closeNavbarDialog()" appScrollTop>
                     Computing Atman
                 </a>
                 <ng-container *ngIf="(isLoggedIn$ | async) === true">

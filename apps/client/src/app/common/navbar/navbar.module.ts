@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { SharedModule } from '@libs/angular-shared/domain';
 import { NavbarComponent } from './navbar.component';
 
 @NgModule({
@@ -8,6 +9,7 @@ import { NavbarComponent } from './navbar.component';
   imports: [
     CommonModule,
     RouterModule,
+    SharedModule
   ],
   exports: [NavbarComponent]
 })
