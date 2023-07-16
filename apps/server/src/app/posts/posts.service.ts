@@ -29,14 +29,12 @@ export class PostsService {
     ) { }
 
     async initializePostData(): Promise<Post[]> {
-
-        // delete all posts data
-        await this.postsRepository.deleteMany({});
-
         // create all posts data
         const posts: Post[] = [];
         const postInputs = await this.createPostsInput();
         for (const postInput of postInputs) {
+            // delete old posts data
+            await this.postsRepository.deleteMany({ name: postInput.name });
             const postDocument = await this.postsRepository.create({
                 ...postInput
             });
@@ -44,7 +42,7 @@ export class PostsService {
             posts.push(this.toModel(postDocument));
         }
 
-        console.log('initialized post data.');
+        console.log('Post data initialized.');
         return posts;
     }
 
@@ -81,7 +79,7 @@ export class PostsService {
         connectionArgs: ConnectionArgs,
         getPostsByCategoryArgs: GetPostsByCategoryArgs
     ): Promise<PostsConnection> {
-        const {category} = getPostsByCategoryArgs;
+        const { category } = getPostsByCategoryArgs;
         await this.postsConnection.loadConnectionByCategory(connectionArgs, category);
         return this.postsConnection;
     }
