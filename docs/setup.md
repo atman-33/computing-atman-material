@@ -82,6 +82,21 @@ npx nx generate @nx/js:library domain --directory=nest-shared --importPath=@libs
 - unit test runner => none
 - bundler => none
 
+## setup server to serve client
+```
+npm install @nestjs/serve-static
+``` 
+- add ServeStaticModuel to app.module.ts in nestjs
+```
+@Module({
+  imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+      exclude: ['/api*'],
+    }),
+    ...
+```
+
 ## install oracledb
 ```
 npm install oracledb @types/oracledb

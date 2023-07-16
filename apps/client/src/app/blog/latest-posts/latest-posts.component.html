@@ -11,7 +11,7 @@
                         <div class="card bg-primary shadow-soft h-100">
                             <div class="row no-gutters">
                                 <div class="col-3 align-self-center">
-                                    <a routerLink="{{ post.name }}">
+                                    <a routerLink="blog/posts/{{ post.name }}">
                                         <div
                                             class="card bg-primary shadow-soft border-light organic-radius mx-2 my-2 p-0">
                                             <img src="{{ post.thumbnail || defaultThumbnail}}" alt="..."
@@ -39,7 +39,7 @@
                                             </span>
                                         </div>
 
-                                        <a routerLink="{{post.name}}">
+                                        <a routerLink="blog/posts/{{ post.name }}">
                                             <h6 class="card-title my-2 font-weight-bold">{{ post.title }} </h6>
                                         </a>
                                         <!-- <p class="card-text">{{post.lead}}</p> -->
