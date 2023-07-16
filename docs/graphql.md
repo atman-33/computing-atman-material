@@ -1,7 +1,7 @@
 ## open graphql play ground
 after `nx serve server`  
 ```
-http://localhost:3000/graphql
+http://localhost:3000/api/graphql
 ```
 
 ## create user
