@@ -19,7 +19,7 @@ import { UsersModule } from './users/users.module';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
-      exclude: ['/api*'],
+      exclude: ['/api/*', '/api/graphql'],
     }),
     ConfigModule.forRoot({
       load: [() => ({ ...env })],

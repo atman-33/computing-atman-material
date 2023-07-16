@@ -92,7 +92,7 @@ npm install @nestjs/serve-static
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client'),
-      exclude: ['/api*'],
+      exclude: ['/api/*', '/api/graphql'],
     }),
     ...
 ```
@@ -189,7 +189,7 @@ export class AppModule {}
 
 *4. create codegen.yml*
 ```
-schema: http://localhost:3000/graphql
+schema: http://localhost:3000/api/graphql
 documents: "./apps/client/src/**/*.graphql"
 generates: 
   apps/client/src/generated-types.ts: 
@@ -228,7 +228,7 @@ noImplicitOverride => false
 
 *1. create .graphqlrc.yml on the top directory*
 ```
-schema: http://localhost:3000/graphql
+schema: http://localhost:3000/api/graphql
 documents: "./apps/client/src/**/*.graphql"
 ```
 
