@@ -9,15 +9,18 @@ import { BookerModule } from './sites/booker/booker.module';
 const routes: Routes = [
     {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        title: 'Login | Computing Atman',
     },
     {
         path: 'signup',
-        component: SignUpComponent
+        component: SignUpComponent,
+        title: 'Sign Up | Computing Atman',
     },
     {
         path: '',
         component: HomeComponent,
+        title: 'Computing Atman',
     },
     {
         path: '**',
