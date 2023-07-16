@@ -1,7 +1,6 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonToggle } from '@angular/material/button-toggle';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,11 +24,6 @@ export class HomeComponent implements OnInit   {
   @ViewChild('blogButton', { static: true }) blogButton!: MatButtonToggle;
   @ViewChild('sitesButton', { static: true }) sitesButton!: MatButtonToggle;
   @ViewChild('gamesButton', { static: true }) gamesButton!: MatButtonToggle;
-
-  constructor(
-    private readonly router: Router,
-  ) {
-  }
 
   ngOnInit(): void {
       this.blogButton.checked = true;

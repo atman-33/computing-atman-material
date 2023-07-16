@@ -1,5 +1,5 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Consts, HtmlUtils, PrismService } from '@libs/angular-shared/domain';
 import { Observable, map, switchMap } from 'rxjs';
 import { Post, PostByNameGQL, RandomPostsWithSameCategoryOrTagGQL } from '../../../..//generated-types';
@@ -29,6 +29,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
 
   constructor(
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
     private readonly postByNameGql: PostByNameGQL,
     private readonly randomPostsWithSameCategoryTagGql: RandomPostsWithSameCategoryOrTagGQL,
     private prismService: PrismService,
@@ -43,6 +44,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
         })
       )
       .subscribe((result) => {
+        this.highlighted = false;
         this.isLoading = result.loading;
 
         this.id = result.data.postByName._id;
@@ -65,9 +67,13 @@ export class PostComponent implements OnInit, AfterViewChecked {
     // console.log('ngAfterViewChecked!');
     if (!this.highlighted && this.article) {
       // console.log('highlight!');
-
       this.prismService.highlightAll();
       this.highlighted = true;
     }
+  }
+
+  onRelatedPostClick(postName: string) {
+    setTimeout(() => window.scrollTo(0, 0));
+    this.router.navigate(['blog/posts', postName]);
   }
 }
