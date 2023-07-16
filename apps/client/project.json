@@ -19,6 +19,7 @@
           "apps/client/src/favicon.ico", 
           "apps/client/src/assets",
           "apps/client/src/sitemap.xml",
+          "apps/client/src/robots.txt",
           "apps/client/src/ads.txt"
         ],
         "styles": ["apps/client/src/styles.scss"],
