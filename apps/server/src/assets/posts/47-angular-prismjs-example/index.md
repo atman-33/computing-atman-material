@@ -9,8 +9,8 @@ tags:
 categories: Angular
 ---
 
-Here is how to apply Prism.js to your code in Angular.  
-By following this method, you will be able to apply Prism.js to HTML stored in a database and display it on an Angular page.  
+Here is how to apply prismjs to your code in Angular.  
+By following this method, you will be able to apply prismjs to HTML stored in a database and display it on an Angular page.  
 
 # angular-prismjs-example
 
