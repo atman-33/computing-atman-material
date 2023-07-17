@@ -38,7 +38,7 @@
                     </div>
 
                     <hr color="#808080">
-                    <div [innerHTML]="article| safeHtml" class="post-content pb-4"></div>
+                    <div [innerHTML]="article | safeHtml" class="post-content pb-4"></div>
                 </div>
             </div>
         </article>
@@ -68,7 +68,8 @@
                                                 <div class="post-group mr-1">
                                                     <span class="fa-solid fa-tag align-self-center"></span>
                                                     <span class="px-1" *ngFor="let tag of post.tags">
-                                                        <a class="" [routerLink]="['/blog/posts']" [queryParams]="{tag: tag}">{{ tag }}</a>
+                                                        <a class="" [routerLink]="['/blog/posts']"
+                                                            [queryParams]="{tag: tag}">{{ tag }}</a>
                                                     </span>
                                                 </div>
                                             </span>
