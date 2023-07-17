@@ -66,7 +66,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
         this.metaTagService.updateMetaTags(
           this.lead,
           this.tags?.join(',') || '',
-          this.title,
+          this.title + ' | ' + Consts.TITLE,
           Consts.TWITTER_CARD,
           Consts.TWITTER_SITE,
           Consts.ROOT_URL + this.thumbnail,
