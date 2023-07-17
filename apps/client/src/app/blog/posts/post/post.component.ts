@@ -1,7 +1,6 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Consts, HtmlUtils, PrismService } from '@libs/angular-shared/domain';
+import { Consts, HtmlUtils, MetaTagService, PrismService } from '@libs/angular-shared/domain';
 import { Observable, map, switchMap } from 'rxjs';
 import { Post, PostByNameGQL, RandomPostsWithSameCategoryOrTagGQL } from '../../../..//generated-types';
 
@@ -36,8 +35,7 @@ export class PostComponent implements OnInit, AfterViewChecked {
     private readonly postByNameGql: PostByNameGQL,
     private readonly randomPostsWithSameCategoryTagGql: RandomPostsWithSameCategoryOrTagGQL,
     private readonly prismService: PrismService,
-    private readonly titleService: Title,
-    private readonly meta: Meta
+    private readonly metaTagService: MetaTagService
   ) {
   }
 
@@ -64,11 +62,8 @@ export class PostComponent implements OnInit, AfterViewChecked {
 
         console.log(this.thumbnail);
 
-        // set title
-        this.titleService.setTitle(`${this.title} | Computing Atman`);
-
-        // set meta data
-        this.updateDescription(
+        // set titale and meta data
+        this.metaTagService.updateMetaTags(
           this.lead,
           this.tags?.join(',') || '',
           this.title,
@@ -98,17 +93,5 @@ export class PostComponent implements OnInit, AfterViewChecked {
   onRelatedPostClick(postName: string) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.router.navigate(['blog/posts', postName]);
-  }
-
-  updateDescription(desc: string, keywords: string, title: string, twittercard: string, twittersite: string, twitterimage: string, url: string) {
-    this.titleService.setTitle(title);
-    this.meta.updateTag({ name: 'description', content: desc });
-    this.meta.updateTag({ name: 'keywords', content: keywords });
-    this.meta.updateTag({ name: 'twitter:card', content: twittercard });
-    this.meta.updateTag({ name: 'twitter:site', content: twittersite });
-    this.meta.updateTag({ property: 'og:url', content: url });
-    this.meta.updateTag({ property: 'og:title', content: title });
-    this.meta.updateTag({ property: 'og:description', content: desc });
-    this.meta.updateTag({ property: 'og:image', content: twitterimage });
   }
 }

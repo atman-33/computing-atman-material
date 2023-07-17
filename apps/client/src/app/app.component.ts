@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { MetaTagService } from '@libs/angular-shared/domain';
 import { filter, map, mergeMap } from 'rxjs';
 
 @Component({
@@ -13,9 +13,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     public router: Router,
-    private route: ActivatedRoute,
-    private titleService: Title,
-    private meta: Meta
+    private readonly route: ActivatedRoute,
+    private readonly metaTagService: MetaTagService
   ) { }
 
   ngOnInit() {
@@ -29,7 +28,7 @@ export class AppComponent implements OnInit {
       }),
       filter((route) => route.outlet === 'primary'),
       mergeMap((route) => route.data)).subscribe((event) => {
-        this.updateDescription(
+        this.metaTagService.updateMetaTags(
           event['description'],
           event['keywords'],
           event['title'],
@@ -39,20 +38,5 @@ export class AppComponent implements OnInit {
           event['url']
         );
       });
-  }
-
-  /**
-   * update meta tag
-   */
-  updateDescription(desc: string, keywords: string, title: string, twittercard: string, twittersite: string, twitterimage: string, url: string) {
-    this.titleService.setTitle(title);
-    this.meta.updateTag({ name: 'description', content: desc });
-    this.meta.updateTag({ name: 'keywords', content: keywords });
-    this.meta.updateTag({ name: 'twitter:card', content: twittercard });
-    this.meta.updateTag({ name: 'twitter:site', content: twittersite });
-    this.meta.updateTag({ property: 'og:url', content: url });
-    this.meta.updateTag({ property: 'og:title', content: title });
-    this.meta.updateTag({ property: 'og:description', content: desc });
-    this.meta.updateTag({ property: 'og:image', content: twitterimage });
   }
 }
