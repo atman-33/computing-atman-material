@@ -9,6 +9,7 @@ query postByName($name: String!) {
     categories
     tags
     article
+    lead
   }
 }
 

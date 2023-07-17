@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { Consts } from '@libs/angular-shared/domain';
 import { AuthGuard } from '../../auth/auth.guard';
 import { BookerHeaderModule } from './booker-header/booker-header.module';
 import { BookerHomeComponent } from './booker-home/booker-home.component';
@@ -17,7 +18,16 @@ const routes: Routes = [
             path: '',
             component: BookerHomeComponent,
             canActivate: [AuthGuard], 
-            title: 'Booker | Computing Atman' 
+            title: 'Booker | ' + Consts.TITLE,
+            data: {
+              title: 'Booker | ' + Consts.TITLE,
+              description: 'This is a web application for bookmarking URL links.',
+              keywords: Consts.KEYWORDS,
+              twittercard: Consts.TWITTER_CARD,
+              twittersite: Consts.TWITTER_SITE,
+              twitterimage: Consts.TWITTER_IMAGE,
+              url: Consts.ROOT_URL + '/sites/booker', 
+            } 
           },
           { 
             path: 'bookmarks/:id', 

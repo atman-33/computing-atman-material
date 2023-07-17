@@ -1,7 +1,6 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Consts, HtmlUtils, PrismService } from '@libs/angular-shared/domain';
+import { Consts, HtmlUtils, MetaTagService, PrismService } from '@libs/angular-shared/domain';
 import { Observable, map, switchMap } from 'rxjs';
 import { Post, PostByNameGQL, RandomPostsWithSameCategoryOrTagGQL } from '../../../..//generated-types';
 
@@ -15,12 +14,14 @@ export class PostComponent implements OnInit, AfterViewChecked {
   public readonly defaultThumbnail = Consts.DEFAULT_BLOG_THUMBNAIL_PATH;
 
   id!: string;
+  name!: string;
   title!: string;
   date: string | undefined;
   thumbnail: string | null | undefined;
   tags: string[] | null | undefined;
   categories: string[] | null | undefined;
   article: string | null | undefined;
+  lead: string | null | undefined;
 
   highlighted = false;
 
@@ -33,8 +34,8 @@ export class PostComponent implements OnInit, AfterViewChecked {
     private readonly router: Router,
     private readonly postByNameGql: PostByNameGQL,
     private readonly randomPostsWithSameCategoryTagGql: RandomPostsWithSameCategoryOrTagGQL,
-    private prismService: PrismService,
-    private titleService: Title
+    private readonly prismService: PrismService,
+    private readonly metaTagService: MetaTagService
   ) {
   }
 
@@ -50,15 +51,27 @@ export class PostComponent implements OnInit, AfterViewChecked {
         this.isLoading = result.loading;
 
         this.id = result.data.postByName._id;
+        this.name = result.data.postByName.name;
         this.title = result.data.postByName.title;
         this.date = result.data.postByName.date;
         this.thumbnail = result.data.postByName.thumbnail;
         this.categories = result.data.postByName.categories;
         this.tags = result.data.postByName.tags;
         this.article = HtmlUtils.addClassToHtml(result.data.postByName.article, 'line-numbers', 'pre');
+        this.lead = result.data.postByName.lead;
 
-        // set title of page
-        this.titleService.setTitle(`${this.title} | Computing Atman`);
+        console.log(this.thumbnail);
+
+        // set titale and meta data
+        this.metaTagService.updateMetaTags(
+          this.lead,
+          this.tags?.join(',') || '',
+          this.title,
+          Consts.TWITTER_CARD,
+          Consts.TWITTER_SITE,
+          Consts.ROOT_URL + this.thumbnail,
+          Consts.ROOT_URL + '/blog/posts/' + this.name 
+        );
 
         this.relatedPosts$ = this.randomPostsWithSameCategoryTagGql
           .watch({ _id: this.id })
