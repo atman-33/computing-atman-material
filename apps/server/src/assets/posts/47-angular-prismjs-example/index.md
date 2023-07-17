@@ -16,6 +16,8 @@ By following this method, you will be able to apply Prism.js to HTML stored in a
 
 [Edit on StackBlitz ⚡️](https://stackblitz.com/edit/stackblitz-starters-rnpfug)
 
+![image](1.png)  
+
 The steps are as follows:  
 
 ## 1. Install module
