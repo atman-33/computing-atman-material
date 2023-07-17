@@ -91,49 +91,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="row">
-                <div class="mb-4 pt-3" *ngFor="let post of relatedPosts$ | async">
-                    <div class="card bg-primary border-light shadow-soft h-100">
-                        <div class="row no-gutters">
-                            <div class="col-3 align-self-center">
-                                <a [routerLink]="'/blog/posts/' + post.name">
-                                    <div class="card bg-primary shadow-soft border-light organic-radius mx-2 my-2 p-0">
-                                        <img src="{{ post.thumbnail || defaultThumbnail}}" alt="..."
-                                            class="organic-radius img-fluid">
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-9">
-                                <div class="card-body px-3 py-2">
-                                    <div class="media">
-                                        <span class="medium">
-                                            <div class="post-group mr-1">
-                                                <span class="fa-solid fa-tag align-self-center"></span>
-                                                <span class="px-1" *ngFor="let tag of post.tags">
-                                                    <a class="underline-link" [routerLink]="'/blog/posts/'"
-                                                        [queryParams]="{tag: tag,  page: 1}">
-                                                        {{ tag }}
-                                                    </a>
-                                                </span>
-                                            </div>
-                                        </span>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-end">
-                                        <span class="small text-right mr-1">
-                                            <span class="far fa-calendar-alt mr-2"></span>{{post.date}}
-                                        </span>
-                                    </div>
-
-                                    <a [routerLink]="'/blog/posts/' + post.name">
-                                        <h6 class="card-title my-2 font-weight-bold">{{ post.title }} </h6>
-                                    </a>
-                                    <p class="card-text">{{post.article}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
     </ng-template>
 </main>
