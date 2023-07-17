@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
-/** innerHTML指定するときに、styleやclass定義などを除去せずにそのまま出力する
+/** usage
  * [innerHTML]="value | safeHtml"
  */
 @Pipe({ name: 'safeHtml' })
