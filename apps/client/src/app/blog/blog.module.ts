@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule, Routes } from '@angular/router';
+import { Consts } from '@libs/angular-shared/domain';
 import { BreadcrumbModule } from 'xng-breadcrumb';
 import { BlogComponent } from './blog.component';
 import { PostComponent } from './posts/post/post.component';
@@ -17,8 +18,18 @@ const routes: Routes = [
       {
         path: 'posts',
         component: PostsComponent,
-        title: 'Blog list | Computing Atman',
-        data: { breadcrumb: { skip: true } },
+        title: 'Posts | ' + Consts.TITLE,
+        data: {
+          title: 'Posts | ' + Consts.TITLE,
+          description: 'Posts on system development and programming related to IT',
+          keywords: Consts.KEYWORDS,
+          twittercard: Consts.TWITTER_CARD,
+          twittersite: Consts.TWITTER_SITE,
+          twitterimage: Consts.TWITTER_IMAGE,
+          url: Consts.ROOT_URL + '/blog/posts',        
+
+          breadcrumb: { skip: true }
+        },
       },
       {
         path: 'posts/:name',

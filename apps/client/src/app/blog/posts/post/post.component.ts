@@ -1,5 +1,5 @@
 import { AfterViewChecked, Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Consts, HtmlUtils, PrismService } from '@libs/angular-shared/domain';
 import { Observable, map, switchMap } from 'rxjs';
@@ -15,12 +15,14 @@ export class PostComponent implements OnInit, AfterViewChecked {
   public readonly defaultThumbnail = Consts.DEFAULT_BLOG_THUMBNAIL_PATH;
 
   id!: string;
+  name!: string;
   title!: string;
   date: string | undefined;
   thumbnail: string | null | undefined;
   tags: string[] | null | undefined;
   categories: string[] | null | undefined;
   article: string | null | undefined;
+  lead: string | null | undefined;
 
   highlighted = false;
 
@@ -33,8 +35,9 @@ export class PostComponent implements OnInit, AfterViewChecked {
     private readonly router: Router,
     private readonly postByNameGql: PostByNameGQL,
     private readonly randomPostsWithSameCategoryTagGql: RandomPostsWithSameCategoryOrTagGQL,
-    private prismService: PrismService,
-    private titleService: Title
+    private readonly prismService: PrismService,
+    private readonly titleService: Title,
+    private readonly meta: Meta
   ) {
   }
 
@@ -50,15 +53,30 @@ export class PostComponent implements OnInit, AfterViewChecked {
         this.isLoading = result.loading;
 
         this.id = result.data.postByName._id;
+        this.name = result.data.postByName.name;
         this.title = result.data.postByName.title;
         this.date = result.data.postByName.date;
         this.thumbnail = result.data.postByName.thumbnail;
         this.categories = result.data.postByName.categories;
         this.tags = result.data.postByName.tags;
         this.article = HtmlUtils.addClassToHtml(result.data.postByName.article, 'line-numbers', 'pre');
+        this.lead = result.data.postByName.lead;
 
-        // set title of page
+        console.log(this.thumbnail);
+
+        // set title
         this.titleService.setTitle(`${this.title} | Computing Atman`);
+
+        // set meta data
+        this.updateDescription(
+          this.lead,
+          this.tags?.join(',') || '',
+          this.title,
+          Consts.TWITTER_CARD,
+          Consts.TWITTER_SITE,
+          Consts.ROOT_URL + this.thumbnail,
+          Consts.ROOT_URL + '/blog/posts/' + this.name 
+        );
 
         this.relatedPosts$ = this.randomPostsWithSameCategoryTagGql
           .watch({ _id: this.id })
@@ -80,5 +98,17 @@ export class PostComponent implements OnInit, AfterViewChecked {
   onRelatedPostClick(postName: string) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     this.router.navigate(['blog/posts', postName]);
+  }
+
+  updateDescription(desc: string, keywords: string, title: string, twittercard: string, twittersite: string, twitterimage: string, url: string) {
+    this.titleService.setTitle(title);
+    this.meta.updateTag({ name: 'description', content: desc });
+    this.meta.updateTag({ name: 'keywords', content: keywords });
+    this.meta.updateTag({ name: 'twitter:card', content: twittercard });
+    this.meta.updateTag({ name: 'twitter:site', content: twittersite });
+    this.meta.updateTag({ property: 'og:url', content: url });
+    this.meta.updateTag({ property: 'og:title', content: title });
+    this.meta.updateTag({ property: 'og:description', content: desc });
+    this.meta.updateTag({ property: 'og:image', content: twitterimage });
   }
 }

@@ -229,7 +229,7 @@ export type PostByNameQueryVariables = Exact<{
 }>;
 
 
-export type PostByNameQuery = { __typename?: 'Query', postByName: { __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, article: string } };
+export type PostByNameQuery = { __typename?: 'Query', postByName: { __typename?: 'Post', _id: string, name: string, title: string, date: any, thumbnail?: string | null, categories?: Array<string> | null, tags?: Array<string> | null, article: string, lead: string } };
 
 export type RandomPostsWithSameCategoryOrTagQueryVariables = Exact<{
   _id: Scalars['String']['input'];
@@ -354,6 +354,7 @@ export const PostByNameDocument = gql`
     categories
     tags
     article
+    lead
   }
 }
     `;
