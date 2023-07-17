@@ -1,2 +1,5 @@
 User-Agent: *
-Disallow:
+Disallow: /login
+Disallow: /signup
+
+Sitemap:https://computing-atman.onrender.com/sitemap.xml
