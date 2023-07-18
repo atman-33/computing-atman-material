@@ -127,6 +127,10 @@ Disallow:
 
 - google search console にサイトマップを登録
 
+# Google Analytics
+
+- index.html の head 要素に、Google タグを設置
+
 # Google AdSense
 
 ## ads.txt を作成
