@@ -87,7 +87,7 @@ npx nx generate @nx/js:library domain --directory=nest-shared --importPath=@libs
 npm install @nestjs/serve-static
 ``` 
 - add ServeStaticModuel to app.module.ts in nestjs
-```
+```ts
 @Module({
   imports: [
     ServeStaticModule.forRoot({
